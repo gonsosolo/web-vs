@@ -102,10 +102,10 @@ nav {
   margin-bottom: 8px;
 }
 
-/* PROJECT INFO */
+/* PROJECT INFO — 3 columnas */
 .project-info {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 2fr;
   border-bottom: 1px solid var(--rule);
 }
 .info-item {
@@ -120,7 +120,7 @@ nav {
   text-transform: uppercase;
   color: var(--grey2);
   font-weight: 400;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
 }
 .info-value {
   font-size: 15px;
@@ -129,60 +129,41 @@ nav {
   line-height: 1.4;
 }
 
-/* INTRO TEXT */
-.intro {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 0;
-  border-bottom: 1px solid var(--rule);
+/* PILLS */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
-.intro-label {
-  padding: 72px 48px;
-  border-right: 1px solid var(--rule);
+.pill {
   font-family: 'DM Mono', monospace;
   font-size: 10px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--grey2);
   font-weight: 400;
+  color: var(--ink);
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 999px;
+  padding: 7px 16px;
+}
+
+/* INTRO */
+.intro {
+  padding: 72px 64px;
+  border-bottom: 1px solid var(--rule);
+  max-width: 780px;
 }
 .intro-text {
-  padding: 72px 64px;
   font-size: 17px;
   font-weight: 300;
   line-height: 1.8;
   color: var(--grey);
-  max-width: 680px;
 }
 .intro-text strong {
   color: var(--ink);
   font-weight: 600;
 }
-
-/* SECTION BREAK — texto entre imágenes */
-.section-break {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  border-bottom: 1px solid var(--rule);
-  padding: 80px 48px;
-  align-items: center;
-}
-.section-break-title {
-  font-size: clamp(28px, 3.5vw, 52px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.08;
-  color: var(--ink);
-  padding-right: 48px;
-}
-.section-break-text {
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 1.8;
-  color: var(--grey);
-  max-width: 480px;
-}
+.intro-text p + p { margin-top: 24px; }
 
 /* FULL WIDTH IMAGE */
 .img-full {
@@ -215,7 +196,32 @@ nav {
   display: block;
 }
 
-/* REVEAL ANIMATION */
+/* SECTION BREAK */
+.section-break {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--rule);
+  padding: 72px 48px;
+  align-items: start;
+}
+.section-break-title {
+  font-size: clamp(20px, 2.4vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--ink);
+  padding-right: 48px;
+}
+.section-break-text {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--grey);
+  padding-left: 80px;
+  padding-top: 4px;
+}
+
+/* REVEAL */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -259,6 +265,40 @@ nav {
   color: var(--ink);
   transform: translateX(8px);
 }
+
+/* FOOTER */
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 48px;
+  border-top: 1px solid var(--rule);
+  background: var(--white);
+}
+.footer-copy {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--grey2);
+}
+.footer-center {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+.footer-legal {
+  display: flex;
+  gap: 24px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--grey2);
+}
+.footer-legal a { transition: color 0.2s; }
+.footer-legal a:hover { color: var(--ink); }
 </style>
 </head>
 <body>
@@ -288,26 +328,23 @@ nav {
   </div>
   <div class="info-item">
     <div class="info-label">Año</div>
-    <div class="info-value">2024</div>
+    <div class="info-value">2025</div>
   </div>
   <div class="info-item">
     <div class="info-label">Servicios</div>
-    <div class="info-value">Consultoría de Marca<br>Branding · Social Media</div>
-  </div>
-  <div class="info-item">
-    <div class="info-label">Estudio</div>
-    <div class="info-value">Virgen Santa</div>
+    <div class="pills">
+      <span class="pill">Consultoría de Marca</span>
+      <span class="pill">Branding</span>
+      <span class="pill">Social Media</span>
+    </div>
   </div>
 </div>
 
 <!-- INTRO -->
 <div class="intro reveal">
-  <div class="intro-label">§ Sobre el proyecto</div>
   <div class="intro-text">
     <p>Lo que comenzó como una gestión de Instagram terminó convirtiéndose en una <strong>redefinición estratégica de marca</strong>. Analizamos su posicionamiento, replanteamos la narrativa y estructuramos una comunicación clara para sus tres líneas de negocio: catering, eventos corporativos y bodas.</p>
-    <br>
     <p>Desarrollamos un nuevo universo visual y verbal —incluyendo un <strong>tagline hoy convertido en emblema de la marca</strong>— y llevamos esa evolución a todos los puntos de contacto: identidad digital, packaging, vestuario del staff, espacios gastronómicos y dirección creativa de shootings en cocina y eventos.</p>
-    <br>
     <p>Más que comunicar mejor, el objetivo fue <strong>elevar la percepción de marca</strong> y alinearla con el nivel real de la experiencia que ofrecen.</p>
   </div>
 </div>
@@ -317,7 +354,7 @@ nav {
   <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-06.png" alt="MB Brandbook 06">
 </div>
 
-<!-- SECTION BREAK -->
+<!-- SECTION BREAK 1 -->
 <div class="section-break reveal">
   <div class="section-break-title">De una gestión de Instagram a una redefinición de marca.</div>
   <div class="section-break-text">Estructuramos la comunicación en tres universos visuales distintos pero coherentes: el catering gastronómico, el evento corporativo y las celebraciones. Cada uno con su propio tono, paleta y narrativa.</div>
@@ -341,16 +378,16 @@ nav {
   <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-22.png" alt="MB Brandbook 22"></div>
 </div>
 
-<!-- SECTION BREAK -->
-<div class="section-break reveal">
-  <div class="section-break-title">Packaging y vestuario. La marca en cada detalle.</div>
-  <div class="section-break-text">El universo visual de la marca se extendió hasta los puntos de contacto físicos: packaging de producto, uniformes del staff y espacios gastronómicos con sello propio.</div>
-</div>
-
 <!-- IMAGES: 2 col -->
 <div class="img-two reveal">
   <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-24.png" alt="MB Brandbook 24"></div>
   <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-25.png" alt="MB Brandbook 25"></div>
+</div>
+
+<!-- SECTION BREAK 2 -->
+<div class="section-break reveal">
+  <div class="section-break-title">Packaging y vestuario. La marca en cada detalle.</div>
+  <div class="section-break-text">El universo visual de la marca se extendió hasta los puntos de contacto físicos: packaging de producto, uniformes del staff y espacios gastronómicos con sello propio.</div>
 </div>
 
 <!-- IMAGES: 2 col -->
@@ -390,6 +427,17 @@ nav {
   </div>
   <div class="next-arrow">→</div>
 </a>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2026 Virgen Santa Creative Studio</div>
+  <div class="footer-center">VS®</div>
+  <div class="footer-legal">
+    <a href="#">Aviso Legal</a>
+    <a href="#">Privacidad</a>
+    <a href="#">Cookies</a>
+  </div>
+</footer>
 
 <script>
   const io = new IntersectionObserver(entries => {
