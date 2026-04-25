@@ -182,9 +182,9 @@ nav {
 .img-two {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3px;
+  gap: 0;
   border-bottom: 1px solid var(--rule);
-  background: var(--rule);
+  background: var(--white);
 }
 .img-two .img-wrap {
   overflow: hidden;
@@ -409,19 +409,25 @@ footer {
 </div>
 
 <!-- 2 col: 13 + video -->
-<div class="img-two reveal">
-  <div class="img-wrap"><img src="Proyecto%20Petu/PETU_BEAUTY-13.png" alt="Petu Beauty 13"></div>
-  <div class="img-wrap">
-    <video autoplay muted loop playsinline>
+<div class="img-two reveal" style="align-items: center; background: #f4f4f4; padding: 40px 0;">
+  <div class="img-wrap" style="display:flex; align-items:center; justify-content:center; padding: 0 40px;">
+    <img src="Proyecto%20Petu/PETU_BEAUTY-13.png" alt="Petu Beauty 13" style="width:100%; height:auto; object-fit:contain;">
+  </div>
+  <div class="img-wrap" style="display:flex; align-items:center; justify-content:center; padding: 0 40px;">
+    <video autoplay muted loop playsinline style="width:100%; height:auto; object-fit:contain;">
       <source src="Proyecto%20Petu/video_mirilla.mp4" type="video/mp4">
     </video>
   </div>
 </div>
 
 <!-- 2 col: 14 + 15 -->
-<div class="img-two reveal">
-  <div class="img-wrap"><img src="Proyecto%20Petu/PETU_BEAUTY-14.png" alt="Petu Beauty 14"></div>
-  <div class="img-wrap"><img src="Proyecto%20Petu/PETU_BEAUTY-15.png" alt="Petu Beauty 15"></div>
+<div class="img-two reveal" style="align-items: center; background: #f4f4f4; padding: 40px 0;">
+  <div class="img-wrap" style="display:flex; align-items:center; justify-content:center; padding: 0 40px;">
+    <img src="Proyecto%20Petu/PETU_BEAUTY-14.png" alt="Petu Beauty 14" style="width:100%; height:auto; object-fit:contain;">
+  </div>
+  <div class="img-wrap" style="display:flex; align-items:center; justify-content:center; padding: 0 40px;">
+    <img src="Proyecto%20Petu/PETU_BEAUTY-15.png" alt="Petu Beauty 15" style="width:100%; height:auto; object-fit:contain;">
+  </div>
 </div>
 
 <!-- IMAGE: Full 16 -->
