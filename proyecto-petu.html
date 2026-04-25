@@ -152,6 +152,7 @@ nav {
   padding: 72px 64px;
   border-bottom: 1px solid var(--rule);
   max-width: 85%;
+  background: var(--white);
 }
 .intro-text {
   font-size: 17px;
@@ -171,6 +172,7 @@ nav {
   width: 100%;
   overflow: hidden;
   border-bottom: 1px solid var(--rule);
+  background: var(--white);
 }
 .img-full img {
   width: 100%;
@@ -201,31 +203,6 @@ nav {
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-/* SECTION BREAK */
-.section-break {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-bottom: 1px solid var(--rule);
-  padding: 72px 48px;
-  align-items: start;
-}
-.section-break-title {
-  font-size: clamp(20px, 2.4vw, 36px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: var(--ink);
-  padding-right: 48px;
-}
-.section-break-text {
-  font-size: 14px;
-  font-weight: 300;
-  line-height: 1.8;
-  color: var(--grey);
-  padding-left: 80px;
-  padding-top: 4px;
 }
 
 /* REVEAL */
@@ -352,8 +329,6 @@ footer {
 <div class="intro reveal">
   <div class="intro-text">
     <p>Comenzamos con una consultoría estratégica para detectar el verdadero potencial de la marca y definir una dirección más ambiciosa. Identificamos una base sólida en el terreno dermocosmético, pero también una oportunidad clara de evolucionar hacia un posicionamiento más <strong>lifestyle, aspiracional y conectado con el universo moda</strong>.</p>
-    <p>A partir de ahí, desarrollamos una <strong>estrategia de contenidos contemporánea</strong>, combinando shootings de producto, gestión de social media y creación de piezas con IA para construir un imaginario visual más rico, ágil y diferencial.</p>
-    <p>El objetivo: <strong>elevar la percepción de marca</strong>, activar la venta online y acercar Petu Beauty a un consumidor más deseable y actual.</p>
   </div>
 </div>
 
@@ -376,6 +351,13 @@ footer {
 <!-- IMAGE: Full 06 -->
 <div class="img-full reveal">
   <img src="Proyecto%20Petu/PETU_BEAUTY-06.png" alt="Petu Beauty 06">
+</div>
+
+<!-- SECTION TEXT -->
+<div class="intro reveal" style="border-top: 1px solid var(--rule);">
+  <div class="intro-text">
+    <p>A partir de ahí, desarrollamos una <strong>estrategia de contenidos contemporánea</strong>, combinando shootings de producto, gestión de social media y creación de piezas con IA para construir un imaginario visual más rico, ágil y diferencial.</p>
+  </div>
 </div>
 
 <!-- IMAGE: Full 07 -->
@@ -408,24 +390,31 @@ footer {
   <img src="Proyecto%20Petu/PETU_BEAUTY-12.png" alt="Petu Beauty 12">
 </div>
 
-<!-- 2 col: 13 + video -->
-<div class="img-two reveal" style="align-items: center; background: #f4f4f4; padding: 40px 0;">
-  <div class="img-wrap" style="display:flex; align-items:center; justify-content:center; padding: 0 40px;">
-    <img src="Proyecto%20Petu/PETU_BEAUTY-13.png" alt="Petu Beauty 13" style="width:100%; height:auto; object-fit:contain;">
+<!-- SECTION TEXT -->
+<div class="intro reveal" style="border-top: 1px solid var(--rule);">
+  <div class="intro-text">
+    <p>El objetivo: <strong>elevar la percepción de marca</strong>, activar la venta online y acercar Petu Beauty a un consumidor más deseable y actual.</p>
   </div>
-  <div class="img-wrap" style="display:flex; align-items:center; justify-content:center; padding: 0 40px;">
-    <video autoplay muted loop playsinline style="width:100%; height:auto; object-fit:contain;">
+</div>
+
+<!-- 2 col: 13 + video -->
+<div class="reveal" style="display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid var(--rule); background:var(--white); height:680px;">
+  <div style="display:flex; align-items:center; justify-content:center; padding:48px; background:var(--white);">
+    <img src="Proyecto%20Petu/PETU_BEAUTY-13.png" alt="Petu Beauty 13" style="max-height:580px; width:auto; object-fit:contain;">
+  </div>
+  <div style="overflow:hidden; background:var(--white);">
+    <video autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover;">
       <source src="Proyecto%20Petu/video_mirilla.mp4" type="video/mp4">
     </video>
   </div>
 </div>
 
 <!-- 2 col: 14 + 15 -->
-<div class="img-two reveal" style="align-items: center; background: #f4f4f4; padding: 40px 0;">
-  <div class="img-wrap" style="display:flex; align-items:center; justify-content:center; padding: 0 40px;">
+<div class="reveal" style="display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid var(--rule); background:var(--white); align-items:center; padding:40px 0;">
+  <div style="display:flex; align-items:center; justify-content:center; padding:0 40px;">
     <img src="Proyecto%20Petu/PETU_BEAUTY-14.png" alt="Petu Beauty 14" style="width:100%; height:auto; object-fit:contain;">
   </div>
-  <div class="img-wrap" style="display:flex; align-items:center; justify-content:center; padding: 0 40px;">
+  <div style="display:flex; align-items:center; justify-content:center; padding:0 40px;">
     <img src="Proyecto%20Petu/PETU_BEAUTY-15.png" alt="Petu Beauty 15" style="width:100%; height:auto; object-fit:contain;">
   </div>
 </div>
