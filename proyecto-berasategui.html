@@ -1,188 +1,404 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catering Martín Berasategui — Virgen Santa Studio</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    .project-hero {
-      width: 100%;
-      background: var(--light);
-      padding: 120px 64px 64px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: start;
-    }
-    .project-back {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--ink);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 48px;
-      opacity: 0.5;
-      transition: opacity 0.2s;
-      grid-column: 1 / -1;
-    }
-    .project-back:hover { opacity: 1; }
-    .project-meta { display: flex; flex-direction: column; gap: 32px; }
-    .project-meta-item {}
-    .project-meta-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--grey2);
-      margin-bottom: 6px;
-    }
-    .project-meta-value {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--ink);
-      letter-spacing: -0.01em;
-    }
-    .project-title-col {}
-    .project-title {
-      font-size: clamp(40px, 5vw, 72px);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.05;
-      color: var(--ink);
-      margin-bottom: 32px;
-    }
-    .project-desc {
-      font-size: 16px;
-      line-height: 1.75;
-      color: var(--grey1);
-      max-width: 560px;
-    }
-    .project-gallery {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .gallery-full img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    .gallery-two {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4px;
-    }
-    .gallery-two img {
-      width: 100%;
-      height: auto;
-      display: block;
-      object-fit: cover;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catering Martín Berasategui — Virgen Santa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800;900&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --white: #FFFFFF;
+  --light: #F4F4F4;
+  --ink: #0D0D0D;
+  --grey: #777777;
+  --grey2: #BBBBBB;
+  --rule: rgba(0,0,0,0.09);
+}
+body {
+  background: var(--white);
+  color: var(--ink);
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 300;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-logo {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.nav-back {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grey);
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--ink); }
+
+/* HERO */
+.hero {
+  width: 100%;
+  height: 100vh;
+  min-height: 560px;
+  overflow: hidden;
+  position: relative;
+  margin-top: 0;
+}
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+.hero-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 60px 48px;
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.hero-title {
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.hero-client {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+/* PROJECT INFO */
+.project-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  border-bottom: 1px solid var(--rule);
+}
+.info-item {
+  padding: 36px 40px;
+  border-right: 1px solid var(--rule);
+}
+.info-item:last-child { border-right: none; }
+.info-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey2);
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+.info-value {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+/* INTRO TEXT */
+.intro {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0;
+  border-bottom: 1px solid var(--rule);
+}
+.intro-label {
+  padding: 72px 48px;
+  border-right: 1px solid var(--rule);
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey2);
+  font-weight: 400;
+}
+.intro-text {
+  padding: 72px 64px;
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--grey);
+  max-width: 680px;
+}
+.intro-text strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* SECTION BREAK — texto entre imágenes */
+.section-break {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--rule);
+  padding: 80px 48px;
+  align-items: center;
+}
+.section-break-title {
+  font-size: clamp(28px, 3.5vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: var(--ink);
+  padding-right: 48px;
+}
+.section-break-text {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--grey);
+  max-width: 480px;
+}
+
+/* FULL WIDTH IMAGE */
+.img-full {
+  width: 100%;
+  overflow: hidden;
+  border-bottom: 1px solid var(--rule);
+}
+.img-full img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* TWO COLUMN IMAGES */
+.img-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--rule);
+}
+.img-two .img-wrap {
+  overflow: hidden;
+  background: var(--white);
+}
+.img-two img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* REVEAL ANIMATION */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.on {
+  opacity: 1;
+  transform: none;
+}
+
+/* NEXT PROJECT */
+.next-project {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 64px 48px;
+  border-top: 1px solid var(--rule);
+  transition: background 0.2s;
+}
+.next-project:hover { background: var(--light); }
+.next-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey2);
+  margin-bottom: 12px;
+}
+.next-title {
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.next-arrow {
+  font-size: 32px;
+  color: var(--grey2);
+  transition: color 0.2s, transform 0.2s;
+}
+.next-project:hover .next-arrow {
+  color: var(--ink);
+  transform: translateX(8px);
+}
+</style>
 </head>
 <body>
-  <header class="nav">
-    <a href="index.html" class="nav-logo">VS®</a>
-    <nav class="nav-links">
-      <a href="index.html#work">Work</a>
-      <a href="index.html#estudio">Estudio</a>
-      <a href="index.html#contacto">Contacto</a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="project-hero">
-      <a href="index.html#work" class="project-back">← Volver al Work</a>
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Virgen Santa</a>
+  <a href="index.html#work" class="nav-back">← Volver al work</a>
+</nav>
 
-      <div class="project-meta">
-        <div class="project-meta-item">
-          <div class="project-meta-label">Cliente</div>
-          <div class="project-meta-value">Catering Martín Berasategui</div>
-        </div>
-        <div class="project-meta-item">
-          <div class="project-meta-label">Año</div>
-          <div class="project-meta-value">2024</div>
-        </div>
-        <div class="project-meta-item">
-          <div class="project-meta-label">Servicios</div>
-          <div class="project-meta-value">Consultoría de Marca<br>Branding · Social Media</div>
-        </div>
-        <div class="project-meta-item">
-          <div class="project-meta-label">Estudio</div>
-          <div class="project-meta-value">Virgen Santa</div>
-        </div>
-      </div>
-
-      <div class="project-title-col">
-        <h1 class="project-title">Catering Martín Berasategui</h1>
-        <p class="project-desc">Lo que comenzó como una gestión de Instagram terminó convirtiéndose en una <strong>redefinición estratégica de marca</strong>. Analizamos su posicionamiento, replanteamos la narrativa y estructuramos una comunicación clara para sus tres líneas de negocio: catering, eventos corporativos y bodas.</p>
-        <br>
-        <p class="project-desc">Desarrollamos un nuevo universo visual y verbal —incluyendo un <strong>tagline hoy convertido en emblema de la marca</strong>— y llevamos esa evolución a todos los puntos de contacto: identidad digital, packaging, vestuario del staff, espacios gastronómicos y dirección creativa de shootings en cocina y eventos.</p>
-        <br>
-        <p class="project-desc">Más que comunicar mejor, el objetivo fue <strong>elevar la percepción de marca</strong> y alinearla con el nivel real de la experiencia que ofrecen.</p>
-      </div>
-    </section>
-
-    <section class="project-gallery">
-      <div class="gallery-full">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL_Mesa%20de%20trabajo%201.png" alt="MB Brandbook portada">
-      </div>
-      <div class="gallery-full">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-06.png" alt="MB Brandbook 06">
-      </div>
-      <div class="gallery-two">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-07.png" alt="MB Brandbook 07">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-28.png" alt="MB Brandbook 28">
-      </div>
-      <div class="gallery-two">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-18.png" alt="MB Brandbook 18">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-19.png" alt="MB Brandbook 19">
-      </div>
-      <div class="gallery-two">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-21.png" alt="MB Brandbook 21">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-22.png" alt="MB Brandbook 22">
-      </div>
-      <div class="gallery-two">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-24.png" alt="MB Brandbook 24">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-25.png" alt="MB Brandbook 25">
-      </div>
-      <div class="gallery-two">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-31.png" alt="MB Brandbook 31">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-33.png" alt="MB Brandbook 33">
-      </div>
-      <div class="gallery-two">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-36.png" alt="MB Brandbook 36">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-37.png" alt="MB Brandbook 37">
-      </div>
-      <div class="gallery-two">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-39.png" alt="MB Brandbook 39">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-40.png" alt="MB Brandbook 40">
-      </div>
-      <div class="gallery-two">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-29.png" alt="MB Brandbook 29">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-45.png" alt="MB Brandbook 45">
-      </div>
-      <div class="gallery-full">
-        <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-46.png" alt="MB Brandbook 46">
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-copy">© 2026 Virgen Santa Creative Studio</div>
-    <div class="footer-center">VS®</div>
-    <div class="footer-legal">
-      <a href="#">Aviso Legal</a>
-      <a href="#">Privacidad</a>
-      <a href="#">Cookies</a>
+<!-- HERO -->
+<div class="hero">
+  <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL_Mesa%20de%20trabajo%201.png" alt="Catering Martín Berasategui">
+  <div class="hero-caption">
+    <div>
+      <div class="hero-client">Cliente</div>
+      <div class="hero-title">Catering Martín<br>Berasategui</div>
     </div>
-  </footer>
+  </div>
+</div>
+
+<!-- PROJECT INFO -->
+<div class="project-info">
+  <div class="info-item">
+    <div class="info-label">Cliente</div>
+    <div class="info-value">Catering Martín Berasategui</div>
+  </div>
+  <div class="info-item">
+    <div class="info-label">Año</div>
+    <div class="info-value">2024</div>
+  </div>
+  <div class="info-item">
+    <div class="info-label">Servicios</div>
+    <div class="info-value">Consultoría de Marca<br>Branding · Social Media</div>
+  </div>
+  <div class="info-item">
+    <div class="info-label">Estudio</div>
+    <div class="info-value">Virgen Santa</div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro reveal">
+  <div class="intro-label">§ Sobre el proyecto</div>
+  <div class="intro-text">
+    <p>Lo que comenzó como una gestión de Instagram terminó convirtiéndose en una <strong>redefinición estratégica de marca</strong>. Analizamos su posicionamiento, replanteamos la narrativa y estructuramos una comunicación clara para sus tres líneas de negocio: catering, eventos corporativos y bodas.</p>
+    <br>
+    <p>Desarrollamos un nuevo universo visual y verbal —incluyendo un <strong>tagline hoy convertido en emblema de la marca</strong>— y llevamos esa evolución a todos los puntos de contacto: identidad digital, packaging, vestuario del staff, espacios gastronómicos y dirección creativa de shootings en cocina y eventos.</p>
+    <br>
+    <p>Más que comunicar mejor, el objetivo fue <strong>elevar la percepción de marca</strong> y alinearla con el nivel real de la experiencia que ofrecen.</p>
+  </div>
+</div>
+
+<!-- IMAGE: Full -->
+<div class="img-full reveal">
+  <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-06.png" alt="MB Brandbook 06">
+</div>
+
+<!-- SECTION BREAK -->
+<div class="section-break reveal">
+  <div class="section-break-title">De una gestión de Instagram a una redefinición de marca.</div>
+  <div class="section-break-text">Estructuramos la comunicación en tres universos visuales distintos pero coherentes: el catering gastronómico, el evento corporativo y las celebraciones. Cada uno con su propio tono, paleta y narrativa.</div>
+</div>
+
+<!-- IMAGES: 2 col -->
+<div class="img-two reveal">
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-07.png" alt="MB Brandbook 07"></div>
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-28.png" alt="MB Brandbook 28"></div>
+</div>
+
+<!-- IMAGES: 2 col -->
+<div class="img-two reveal">
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-18.png" alt="MB Brandbook 18"></div>
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-19.png" alt="MB Brandbook 19"></div>
+</div>
+
+<!-- IMAGES: 2 col -->
+<div class="img-two reveal">
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-21.png" alt="MB Brandbook 21"></div>
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-22.png" alt="MB Brandbook 22"></div>
+</div>
+
+<!-- SECTION BREAK -->
+<div class="section-break reveal">
+  <div class="section-break-title">Packaging y vestuario. La marca en cada detalle.</div>
+  <div class="section-break-text">El universo visual de la marca se extendió hasta los puntos de contacto físicos: packaging de producto, uniformes del staff y espacios gastronómicos con sello propio.</div>
+</div>
+
+<!-- IMAGES: 2 col -->
+<div class="img-two reveal">
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-24.png" alt="MB Brandbook 24"></div>
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-25.png" alt="MB Brandbook 25"></div>
+</div>
+
+<!-- IMAGES: 2 col -->
+<div class="img-two reveal">
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-31.png" alt="MB Brandbook 31"></div>
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-33.png" alt="MB Brandbook 33"></div>
+</div>
+
+<!-- IMAGES: 2 col -->
+<div class="img-two reveal">
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-36.png" alt="MB Brandbook 36"></div>
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-37.png" alt="MB Brandbook 37"></div>
+</div>
+
+<!-- IMAGES: 2 col -->
+<div class="img-two reveal">
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-39.png" alt="MB Brandbook 39"></div>
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-40.png" alt="MB Brandbook 40"></div>
+</div>
+
+<!-- IMAGES: 2 col -->
+<div class="img-two reveal">
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-29.png" alt="MB Brandbook 29"></div>
+  <div class="img-wrap"><img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-45.png" alt="MB Brandbook 45"></div>
+</div>
+
+<!-- IMAGE: Full -->
+<div class="img-full reveal">
+  <img src="Poyecto%20Bearasategui/MB_Brandbook_FINAL-46.png" alt="MB Brandbook 46">
+</div>
+
+<!-- NEXT PROJECT -->
+<a href="#" class="next-project">
+  <div>
+    <div class="next-label">Próximo proyecto</div>
+    <div class="next-title">Próximamente</div>
+  </div>
+  <div class="next-arrow">→</div>
+</a>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
 
 </body>
 </html>
