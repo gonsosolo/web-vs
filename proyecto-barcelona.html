@@ -282,6 +282,21 @@ footer {
 }
 .footer-legal a { transition: color 0.2s; }
 .footer-legal a:hover { color: var(--ink); }
+
+  @media (max-width: 860px) {
+  footer {
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    align-items: flex-start;
+  }
+  .footer-center { 
+    display: block;
+    align-self: flex-end;
+    margin-top: -48px;
+  }
+  .footer-legal { gap: 16px; }
+}
 </style>
 </head>
 <body>
