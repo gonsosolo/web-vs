@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FC Barcelona — Virgen Santa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800;900&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --white: #FFFFFF;
+  --black: #000000;
+  --light: #F4F4F4;
+  --ink: #0D0D0D;
+  --grey: #777777;
+  --grey2: #BBBBBB;
+  --rule: rgba(0,0,0,0.09);
+}
+body {
+  background: var(--white);
+  color: var(--ink);
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 300;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-logo {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.nav-back {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grey);
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--ink); }
+
+/* HERO */
+.hero {
+  width: 100%;
+  height: 100vh;
+  min-height: 560px;
+  overflow: hidden;
+  position: relative;
+  margin-top: 0;
+}
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+.hero-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 60px 48px;
+  background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%);
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.hero-title {
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.hero-client {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+/* PROJECT INFO */
+.project-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  border-bottom: 1px solid var(--rule);
+}
+.info-item {
+  padding: 36px 40px;
+  border-right: 1px solid var(--rule);
+}
+.info-item:last-child { border-right: none; }
+.info-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey2);
+  font-weight: 400;
+  margin-bottom: 14px;
+}
+.info-value {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+/* PILLS */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pill {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--ink);
+  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 999px;
+  padding: 7px 16px;
+}
+
+/* INTRO */
+.intro {
+  padding: 72px 64px;
+  border-bottom: 1px solid var(--rule);
+  max-width: 85%;
+  background: var(--white);
+}
+.intro-text {
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--grey);
+  text-align: justify;
+}
+.intro-text strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.intro-text p + p { margin-top: 24px; }
+
+/* VIDEO SECTION — fondo negro, centrado */
+.video-dark {
+  width: 100%;
+  background: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 10%;
+  border-bottom: 1px solid #111;
+}
+.video-dark video {
+  width: 100%;
+  max-width: 960px;
+  height: auto;
+  display: block;
+}
+
+/* GRID 3 COLUMNAS — fondo negro */
+.img-three {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3px;
+  background: var(--black);
+  border-bottom: 1px solid #111;
+}
+.img-three .img-wrap {
+  overflow: hidden;
+  background: var(--black);
+}
+.img-three img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* REVEAL */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.on {
+  opacity: 1;
+  transform: none;
+}
+
+/* NEXT PROJECT */
+.next-project {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 64px 48px;
+  border-top: 1px solid var(--rule);
+  transition: background 0.2s;
+}
+.next-project:hover { background: var(--light); }
+.next-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey2);
+  margin-bottom: 12px;
+}
+.next-title {
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.next-arrow {
+  font-size: 32px;
+  color: var(--grey2);
+  transition: color 0.2s, transform 0.2s;
+}
+.next-project:hover .next-arrow {
+  color: var(--ink);
+  transform: translateX(8px);
+}
+
+/* FOOTER */
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 48px;
+  border-top: 1px solid var(--rule);
+  background: var(--white);
+}
+.footer-copy {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--grey2);
+}
+.footer-center {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+.footer-legal {
+  display: flex;
+  gap: 24px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--grey2);
+}
+.footer-legal a { transition: color 0.2s; }
+.footer-legal a:hover { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Virgen Santa</a>
+  <a href="index.html#work" class="nav-back">← Volver al work</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <img src="Proyecto%20Barsa/Hero.jpg" alt="FC Barcelona">
+  <div class="hero-caption">
+    <div>
+      <div class="hero-client">Cliente</div>
+      <div class="hero-title">FC Barcelona</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECT INFO -->
+<div class="project-info">
+  <div class="info-item">
+    <div class="info-label">Cliente</div>
+    <div class="info-value">FC Barcelona</div>
+  </div>
+  <div class="info-item">
+    <div class="info-label">Año</div>
+    <div class="info-value">2025</div>
+  </div>
+  <div class="info-item">
+    <div class="info-label">Servicios</div>
+    <div class="pills">
+      <span class="pill">Storytelling</span>
+      <span class="pill">Producción Audiovisual</span>
+      <span class="pill">Creación de Contenido IA</span>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro reveal">
+  <div class="intro-text">
+    <p>Con motivo del regreso de FC Barcelona al Camp Nou tras más de dos años fuera de su estadio, desarrollamos una propuesta audiovisual basada en la <strong>emoción de volver a casa</strong>. Detectamos un insight colectivo —la espera, la ausencia y el deseo contenido de regresar— para transformarlo en una pieza con narrativa propia.</p>
+    <p>Frente al contenido deportivo habitual centrado en impacto visual, planteamos un enfoque más <strong>humano y memorable</strong>: una historia donde el silencio también hablaba. El objetivo era reforzar el vínculo entre club y afición desde un lugar más sensible, auténtico y creativo.</p>
+    <p>Más que lanzar una pieza puntual, demostramos cómo <strong>una gran marca puede conectar mejor</strong> cuando deja de generar contenido por inercia y empieza a contar algo que realmente importa.</p>
+  </div>
+</div>
+
+<!-- VIDEO — fondo negro, centrado -->
+<div class="video-dark reveal">
+  <video autoplay muted loop playsinline>
+    <source src="Proyecto%20Barsa/FCBarcelona_VirgenSanta.mov" type="video/mp4">
+  </video>
+</div>
+
+<!-- GRID 3 col — fila 1 -->
+<div class="img-three reveal">
+  <div class="img-wrap">
+    <img src="Proyecto%20Barsa/gonsosolo_Cinematic_interior_of_a_moving_car_camera_placed_fr_faf88d89-7a5b-4d78-b6a3-55afc7a0e310_2.png" alt="FCB 01">
+  </div>
+  <div class="img-wrap">
+    <img src="Proyecto%20Barsa/gonsosolo_Close-up_cinematic_shot_quiet_and_observational._An_978a4259-661a-4457-9613-8bec48409113_1.png" alt="FCB 02">
+  </div>
+  <div class="img-wrap">
+    <img src="Proyecto%20Barsa/gonsosolo_Intimate_cinematic_shot_quiet_and_observational._Th_86af3fbb-8131-42cc-90ff-a0fa5ce8b3af_3.png" alt="FCB 03">
+  </div>
+</div>
+
+<!-- GRID 3 col — fila 2 -->
+<div class="img-three reveal">
+  <div class="img-wrap">
+    <img src="Proyecto%20Barsa/gonsosolo_Daytime_street_scene_in_a_quiet_residential_neighbo_e4f30824-bcdd-4c78-af73-89397026b67b_0.png" alt="FCB 04">
+  </div>
+  <div class="img-wrap">
+    <img src="Proyecto%20Barsa/gonsosolo_Daytime_urban_scene_cinematic_realism._Medium-wide__8a6df8d0-7928-4f70-9aca-d56ba799e3ac_3.png" alt="FCB 05">
+  </div>
+  <div class="img-wrap">
+    <img src="Proyecto%20Barsa/gonsosolo_Interior_of_a_traditional_neighborhood_bar_during_d_ac77f297-d739-4720-87ff-90fca1906986_0.png" alt="FCB 06">
+  </div>
+</div>
+
+<!-- GRID 3 col — fila 3 -->
+<div class="img-three reveal">
+  <div class="img-wrap">
+    <img src="Proyecto%20Barsa/gonsosolo_Interior_of_a_traditional_neighborhood_bar_old_but__eca62d73-77b9-4017-bfff-cd9bac1320ec_1.png" alt="FCB 07">
+  </div>
+  <div class="img-wrap">
+    <img src="Proyecto%20Barsa/gonsosolo_Urban_street_food_stand_during_daytime_closed_or_te_f013fd77-a944-41bf-a4d9-621548b89d57_3.png" alt="FCB 08">
+  </div>
+  <div class="img-wrap">
+    <img src="Proyecto%20Barsa/gonsosolo_Urban_traffic_jam_on_a_match_day_daytime._Wide_cine_9fe645ab-6b89-4e86-8467-aef63e409ecf_1.png" alt="FCB 09">
+  </div>
+</div>
+
+<!-- GRID 3 col — fila 4 -->
+<div class="img-three reveal">
+  <div class="img-wrap">
+    <img src="Proyecto%20Barsa/gonsosolo_Ultra_close-up_cinematic_shot_from_inside_a_footbal_2febb335-5278-42da-965c-5534f0e7548b_3.png" alt="FCB 10">
+  </div>
+  <div class="img-wrap">
+    <img src="Proyecto%20Barsa/gonsosolo_httpss.mj.run1SaZ8lhaqlc_Cinematic_medium_shot_2.png" alt="FCB 11">
+  </div>
+  <div class="img-wrap">
+    <img src="Proyecto%20Barsa/gonsosolo_httpss.mj.run1SaZ8lhaqlc_Cinematic_medium_shot.png" alt="FCB 12">
+  </div>
+</div>
+
+<!-- NEXT PROJECT -->
+<a href="proyecto-petu.html" class="next-project">
+  <div>
+    <div class="next-label">Próximo proyecto</div>
+    <div class="next-title">Petu Beauty</div>
+  </div>
+  <div class="next-arrow">→</div>
+</a>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2026 Virgen Santa Creative Studio</div>
+  <div class="footer-center">VS®</div>
+  <div class="footer-legal">
+    <a href="#">Aviso Legal</a>
+    <a href="#">Privacidad</a>
+    <a href="#">Cookies</a>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
