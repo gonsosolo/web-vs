@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de Cookies — Virgen Santa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800;900&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --white: #FFFFFF;
+  --light: #F4F4F4;
+  --ink: #0D0D0D;
+  --grey: #777777;
+  --grey2: #BBBBBB;
+  --rule: rgba(0,0,0,0.09);
+}
+body {
+  background: var(--white);
+  color: var(--ink);
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 300;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 48px;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-logo {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.nav-back {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--grey);
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--ink); }
+
+.legal-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 140px 48px 100px;
+}
+.legal-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--grey2);
+  margin-bottom: 24px;
+}
+.legal-title {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 56px;
+  color: var(--ink);
+}
+.legal-section {
+  border-top: 1px solid var(--rule);
+  padding: 36px 0;
+}
+.legal-section h2 {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+.legal-section p {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--grey);
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 48px;
+  border-top: 1px solid var(--rule);
+  background: var(--white);
+}
+.footer-copy {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--grey2);
+}
+.footer-center {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+.footer-legal {
+  display: flex;
+  gap: 24px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--grey2);
+}
+.footer-legal a:hover { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Virgen Santa</a>
+  <a href="index.html" class="nav-back">← Volver</a>
+</nav>
+
+<main class="legal-wrap">
+  <div class="legal-label">Legal</div>
+  <h1 class="legal-title">Política de Cookies</h1>
+
+  <div class="legal-section">
+    <h2>¿Qué son las cookies?</h2>
+    <p>Las cookies son pequeños archivos de texto que los sitios web almacenan en el navegador del usuario para recordar información sobre su visita.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>Cookies que utilizamos</h2>
+    <p>Este sitio web utiliza únicamente cookies técnicas necesarias para su correcto funcionamiento. No se utilizan cookies de seguimiento, análisis ni publicidad.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>Cookies de terceros</h2>
+    <p>Actualmente no se utilizan cookies de terceros. En caso de incorporar herramientas de analítica en el futuro, se informará debidamente al usuario y se actualizará esta política.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>Gestión de cookies</h2>
+    <p>El usuario puede configurar su navegador para bloquear o eliminar las cookies. Sin embargo, esto podría afectar al funcionamiento de algunas partes del sitio web.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-copy">© 2026 Virgen Santa Creative Studio</div>
+  <div class="footer-center">VS®</div>
+  <div class="footer-legal">
+    <a href="aviso-legal.html">Aviso Legal</a>
+    <a href="privacidad.html">Privacidad</a>
+    <a href="cookies.html">Cookies</a>
+  </div>
+</footer>
+
+</body>
+</html>
