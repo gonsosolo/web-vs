@@ -283,6 +283,27 @@ footer {
 }
 .footer-legal a { transition: color 0.2s; }
 .footer-legal a:hover { color: var(--ink); }
+
+@media (max-width: 860px) {
+  nav { padding: 18px 24px; }
+  .intro { padding: 48px 24px; max-width: 100%; }
+  .project-info { grid-template-columns: 1fr 1fr; }
+  .info-item { padding: 24px 20px; }
+  .img-two { grid-template-columns: 1fr; }
+  .img-two .img-wrap { width: 100%; }
+  .img-two video { width: 100%; height: auto; object-fit: cover; }
+  .next-project { padding: 48px 24px; }
+  .next-title { font-size: clamp(24px, 8vw, 40px); }
+  footer { padding: 18px 24px; flex-direction: column; gap: 12px; align-items: flex-start; }
+  .footer-legal { gap: 16px; }
+  .footer-center { display: none; }
+}
+
+@media (max-width: 540px) {
+  .project-info { grid-template-columns: 1fr; }
+  .pills { gap: 6px; }
+  .pill { font-size: 9px; padding: 6px 12px; }
+}
 </style>
 </head>
 <body>
