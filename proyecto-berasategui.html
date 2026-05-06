@@ -325,6 +325,21 @@ footer {
   }
   .footer-legal { gap: 16px; }
 }
+
+@media (max-width: 860px) {
+  .intro { padding: 48px 24px; max-width: 100%; }
+  .project-info { grid-template-columns: 1fr; }
+  .info-item { padding: 24px 20px; }
+  .section-break { grid-template-columns: 1fr; padding: 48px 24px; }
+  .section-break-text { padding-left: 0; padding-top: 16px; }
+  .next-project { padding: 48px 24px; }
+  .next-title { font-size: clamp(24px, 8vw, 40px); }
+  footer { display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto; gap: 8px; padding: 24px; align-items: center; }
+  .footer-copy { grid-column: 1; grid-row: 1; }
+  .footer-legal { grid-column: 1; grid-row: 2; gap: 16px; }
+  .footer-center { grid-column: 2; grid-row: 1 / 3; display: flex; align-items: center; justify-content: flex-end; }
+  .footer-center img { height: 32px; width: auto; }
+}
 </style>
 </head>
 <body>
