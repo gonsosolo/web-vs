@@ -284,6 +284,31 @@ footer {
 .footer-legal a { transition: color 0.2s; }
 .footer-legal a:hover { color: var(--ink); }
 
+/* SECTION BREAK */
+.section-break {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--rule);
+  padding: 72px 48px;
+  align-items: start;
+}
+.section-break-title {
+  font-size: clamp(20px, 2.4vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--ink);
+  padding-right: 48px;
+}
+.section-break-text {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--grey);
+  padding-left: 80px;
+  padding-top: 4px;
+}  
+  
 @media (max-width: 860px) {
   footer {
     display: grid;
