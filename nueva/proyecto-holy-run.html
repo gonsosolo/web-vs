@@ -236,6 +236,8 @@ button{font-family:inherit}
     if(on){ch.setAttribute('aria-pressed','true');ch.style.background='#121212';ch.style.color='#ffffff'}
     if(btn)btn.href='mailto:hola@virgensanta.studio?subject='+encodeURIComponent(on?ch.getAttribute('data-topic')+' · desde la web':'Hola, Virgen Santa');
   })});
+  // mailto dentro de un marco (vista previa): abrir fuera para no dejar la página en blanco
+  if(window.top!==window.self){document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="mailto:"]');if(!a)return;e.preventDefault();try{window.open(a.href,'_blank')}catch(x){}},true)}
   // home video
   var pv=document.querySelector('[data-play]');
   if(pv){pv.addEventListener('click',function(){
