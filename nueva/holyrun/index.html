@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>THE HOLY RUN</title>
+<style>
+  html,body{margin:0;padding:0;height:100%;background:#1a1118;overflow:hidden}
+  #hr-wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#1a1118}
+  #hr{width:100%;height:100%;object-fit:contain;display:block;cursor:pointer;
+      image-rendering:pixelated;image-rendering:crisp-edges;
+      touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+</style>
+</head>
+<body>
+<div id="hr-wrap"><canvas id="hr" width="960" height="540" tabindex="0" aria-label="The Holy Run"></canvas></div>
+<script>
+(function(){
+'use strict';
+
+var W=960, H=540, GROUND=512;
+var NCX=250, NHW=34, NH=196;   // centro, medio ancho y alto utiles de la monja
+var FW=130, FH=212, FOOT=204;        // celda del spritesheet y linea de suelo dentro de ella
+var WORK_URL='#work';
+
+var cv=document.getElementById('hr'), c=cv.getContext('2d');
+c.imageSmoothingEnabled=false;
+
+var IMG={}, loaded=0, NEED=7, TILE=null, TW=0, ZL=1920;
+// el tabique que separa un tramo del siguiente: pilar, moldura y hueco de puerta
+function tabique(tc, x, h){
+  // El tabique que tapa la union entre dos tramos. Antes moria en 0.80h y por
+  // debajo asomaban las macetas de las dos escenas, y las molduras eran dos
+  // rectangulos planos que sobresalian por los lados. Ahora baja hasta el
+  // arranque del suelo, lleva jamba con profundidad y umbral que cruza el
+  // encuentro de las dos tarimas.
+  // 124 de ancho para tapar de lado las macetas que las escenas tienen pegadas
+  // a esa columna, y base en 438: la altura a la que la pared encuentra el suelo,
+  // sin montarse sobre la tarima.
+  var W0=124, px=x-W0/2, base=Math.round(h*0.8148);
+
+  // ---- cuerpo del tabique ----
+  tc.fillStyle='#23252c'; tc.fillRect(px-4, 0, W0+8, base);       // cantos oscuros
+  tc.fillStyle='#cfd3d0'; tc.fillRect(px, 0, W0, base);           // cara
+  tc.fillStyle='#e6e9e6'; tc.fillRect(px, 0, 9, base);            // la luz entra por la izquierda
+  tc.fillStyle='#aeb4b5'; tc.fillRect(px+W0-9, 0, 9, base);       // y el lado derecho queda en sombra
+
+  // ---- dintel: tres caras, no una linea ----
+  var ly=Math.round(h*0.252);
+  tc.fillStyle='#eceeea'; tc.fillRect(px, ly,    W0, 2);          // canto superior iluminado
+  tc.fillStyle='#b7bdbe'; tc.fillRect(px, ly+2,  W0, 9);          // frente
+  tc.fillStyle='#7d8486'; tc.fillRect(px, ly+11, W0, 3);          // sombra que arroja
+  tc.fillStyle='#5f6568'; tc.fillRect(px, ly+14, W0, 1);
+
+  // ---- hueco de la puerta, con mocheta ----
+  var dw=78, dx=px+(W0-dw)/2, dy=Math.round(h*0.300);
+  tc.fillStyle='#23252c'; tc.fillRect(dx-6, dy-6, dw+12, base-dy+6);   // cerco
+  tc.fillStyle='#dfe2df'; tc.fillRect(dx-6, dy-6, 3, base-dy+6);       // canto vivo del cerco
+  tc.fillStyle='#8e9496'; tc.fillRect(dx+dw+3, dy-6, 3, base-dy+6);
+  tc.fillStyle='#14161b'; tc.fillRect(dx, dy, dw, 5);                  // sombra bajo el dintel
+
+  // ---- hoja de madera ----
+  tc.fillStyle='#a4663f'; tc.fillRect(dx, dy+5, dw, base-dy-5);
+  tc.fillStyle='#b9754a'; tc.fillRect(dx, dy+5, 4, base-dy-5);         // listel iluminado
+  tc.fillStyle='#8a5331'; tc.fillRect(dx+dw-4, dy+5, 4, base-dy-5);
+  var pw=dw-22, pxp=dx+11;
+  [[dy+22, 68],[dy+102, 86]].forEach(function(q){                      // dos plafones rehundidos
+    var py=q[0], ph=q[1];
+    tc.fillStyle='#7d4a2c'; tc.fillRect(pxp, py, pw, ph);
+    tc.fillStyle='#95593a'; tc.fillRect(pxp+2, py+2, pw-3, ph-3);
+    tc.fillStyle='#b37a4f'; tc.fillRect(pxp+2, py+ph-3, pw-3, 2);      // el fondo del plafon coge luz
+  });
+  tc.fillStyle='#7a4a2b'; tc.fillRect(dx+dw-20, dy+(base-dy)*0.50, 11, 13);   // escudo
+  tc.fillStyle='#d8c07a'; tc.fillRect(dx+dw-18, dy+(base-dy)*0.50+2, 7, 9);   // pomo
+  tc.fillStyle='#f0e0ad'; tc.fillRect(dx+dw-18, dy+(base-dy)*0.50+2, 7, 2);
+
+  // ---- rodapie, metido hacia dentro, no volado ----
+  tc.fillStyle='#6b4e2e'; tc.fillRect(px, base-13, W0, 13);
+  tc.fillStyle='#8a6840'; tc.fillRect(px, base-13, W0, 2);
+  tc.fillStyle='#3f2c18'; tc.fillRect(px, base-2,  W0, 2);
+
+  // ---- umbral: cruza el encuentro de las dos tarimas, que es donde se veia el corte ----
+  tc.fillStyle='rgba(60,34,18,.30)'; tc.fillRect(px, base, W0, 2);     // solo el contacto con el suelo
+}
+var PW=125, PH=201, PFOOT=199;   // celda de los personajes
+var OW=103, OH=84;               // celda de los objetos
+function load(k,src){var i=new Image();i.onload=i.onerror=function(){loaded++;};i.src=src;IMG[k]=i;}
+load('bg',  'fondo.png');
+load('nun', 'sheet.png');
+load('per', 'personajes.png');
+load('obj', 'objetos.png');
+load('bg1','fondo-cabinas.png');
+load('bg2','fondo-despachos.png');
+load('bg3','fondo-comedor.png');
+
+/* ---------- paleta ---------- */
+var P={ink:'#15121a', line:'#2a2330', paper:'#f2ead9', gold:'#e8a33c', gold2:'#b9761f',
+        red:'#c0453a', blue:'#3f6ea8', green:'#4a7a52', wood:'#b5703c', wood2:'#8a5128',
+        grey:'#8d8f99', grey2:'#5f6069', white:'#f7f5ef'};
+
+/* ---------- utilidades de dibujo con contorno ---------- */
+function ro(x,y,w,h,fill){                 // rect con contorno
+  c.fillStyle=P.ink; c.fillRect(x-2,y-2,w+4,h+4);
+  c.fillStyle=fill;  c.fillRect(x,y,w,h);
+}
+function shadow(x,w,scale){
+  c.save(); c.globalAlpha=0.20*scale; c.fillStyle='#2a1c10';
+  c.beginPath(); c.ellipse(x, GROUND+4, w*0.44, 7, 0, 0, 6.3); c.fill(); c.restore();
+}
+
+/* ---------- personajes y objetos, ya dibujados ---------- */
+var FRASES={
+  compa:['Te he dejado los cambios en el servidor',
+         'Hay que adaptar los banners',
+         'El cliente ya ha dado feedback',
+         '\u00bfTienes cinco minutos?',
+         '\u00bfEsto lo has exportado en CMYK?',
+         'Te he puesto en copia, son cuarenta correos',
+         'Se ha vuelto a caer el servidor',
+         '\u00bfD\u00f3nde est\u00e1 la \u00faltima versi\u00f3n buena?',
+         'Falta adaptarlo a story, feed y carrusel',
+         'Lo dejo abierto y lo vemos ma\u00f1ana'],
+  jefe :['\u00bfTe vas ya? Si son las 20:53',
+         'Te veo en mi despacho',
+         'Han reducido el presupuesto a la mitad',
+         'P\u00e1sate por Recursos Humanos',
+         'Es un proyecto peque\u00f1o, cosa de dos d\u00edas',
+         'Lo presentamos el lunes a primera hora',
+         '\u00bfPuedes entrar un momento a una call?',
+         'Esto lo hacemos por el portfolio',
+         'El cliente es muy f\u00e1cil, ya ver\u00e1s',
+         'Hazme tres opciones m\u00e1s y las vemos'],
+  cli  :['Te he pasado el logo en JPG',
+         'Queremos algo viral',
+         'Deja lo que est\u00e9s haciendo, tengo una idea',
+         '\u00bfSe puede hacer m\u00e1s grande?',
+         'Nos gustaba m\u00e1s la primera',
+         '\u00bfY si lo probamos en azul corporativo?',
+         'Que se vea m\u00e1s el producto',
+         'Se lo he ense\u00f1ado a mi cu\u00f1ado y no lo pilla',
+         '\u00bfMe lo pasas en editable?',
+         'Tiene que entrar toda la informaci\u00f3n',
+         'Es un cambio peque\u00f1ito']
+};
+/* Antes se cogia una al azar entre cuatro, asi que se repetian constantemente.
+   Ahora cada categoria lleva su bolsa barajada: no vuelve a salir una frase
+   hasta que han salido todas, y al rebarajar se evita que la ultima enlace
+   con la primera de la vuelta siguiente. */
+var BOLSA={};
+function fraseDe(cat){
+  var lista=FRASES[cat];
+  var b=BOLSA[cat];
+  if(!b || !b.cola.length){
+    var cola=lista.slice();
+    for(var k=cola.length-1;k>0;k--){                 // barajado de Fisher-Yates
+      var r=(Math.random()*(k+1))|0, t=cola[k]; cola[k]=cola[r]; cola[r]=t;
+    }
+    if(b && cola.length>1 && cola[cola.length-1]===b.ultima){   // que no enlace dos iguales
+      var t2=cola[cola.length-1]; cola[cola.length-1]=cola[0]; cola[0]=t2;
+    }
+    b = BOLSA[cat] = {cola:cola, ultima:null};
+  }
+  b.ultima = b.cola.pop();
+  return b.ultima;
+}
+function bocadillo(x, y, txt){
+  c.save();
+  c.font='500 15px ui-monospace, Menlo, monospace';
+  var w=c.measureText(txt).width, pw=w+26, ph=34;
+  var bx=Math.max(8, Math.min(W-pw-8, x-pw/2)), by=Math.max(6, y-ph-14);
+  c.fillStyle=P.ink;    c.fillRect(bx-3, by-3, pw+6, ph+6);
+  c.fillStyle='#ffffff';c.fillRect(bx, by, pw, ph);
+  c.fillStyle=P.ink;
+  c.beginPath(); c.moveTo(x-9, by+ph); c.lineTo(x+9, by+ph); c.lineTo(x, by+ph+15); c.closePath(); c.fill();
+  c.fillStyle='#ffffff';
+  c.beginPath(); c.moveTo(x-5, by+ph-1); c.lineTo(x+5, by+ph-1); c.lineTo(x, by+ph+10); c.closePath(); c.fill();
+  c.fillStyle=P.ink; c.textAlign='center'; c.textBaseline='middle';
+  c.fillText(txt, bx+pw/2, by+ph/2+1);
+  c.restore();
+}
+function pizarra(x, y, h){            // estrecha a proposito: el conjunto tiene que seguir siendo saltable
+  var w=h*0.50, bx=x, by=y-h*0.04;
+  c.fillStyle=P.ink;    c.fillRect(bx-3, by-3, w+6, h*0.70+6);
+  c.fillStyle='#f4f2ea';c.fillRect(bx, by, w, h*0.70);
+  c.strokeStyle='#39414d'; c.lineWidth=3; c.lineCap='round';
+  c.beginPath();                                   // una curva que solo sube
+  c.moveTo(bx+w*0.14, by+h*0.52);
+  c.lineTo(bx+w*0.36, by+h*0.33);
+  c.lineTo(bx+w*0.58, by+h*0.40);
+  c.lineTo(bx+w*0.86, by+h*0.13); c.stroke();
+  c.fillStyle='#c0453a'; c.fillRect(bx+w*0.78, by+h*0.07, 8, 8);
+  c.save();
+  c.fillStyle='#39414d'; c.font='700 11px ui-monospace, Menlo, monospace';
+  c.textAlign='center'; c.textBaseline='top';
+  c.fillText('ESTATUS', bx+w/2, by+h*0.56);
+  c.fillText('SEMANAL', bx+w/2, by+h*0.56+13);
+  c.restore();
+  c.fillStyle=P.ink;                               // patas
+  c.fillRect(bx+w*0.16, by+h*0.70, 5, h*0.30);
+  c.fillRect(bx+w*0.80, by+h*0.70, 5, h*0.30);
+}
+function drawPerson(o){
+  if(!IMG.per.complete || !IMG.per.width) return;
+  var sd=o.seed||0;
+  // ninguno esta plantado del todo: respira, se balancea y pesa de un pie al otro
+  var bob  = Math.sin((S.t+sd*7)/22)*2.2;
+  var tilt = Math.sin((S.t+sd*11)/31)*0.022;
+  var dx=o.x-(PW-o.w)/2, dy=o.y+o.h-PFOOT+bob;
+  if(o.t.i===3) pizarra(o.x-o.h*0.10, o.y-o.h*0.02, o.h*0.74);   // detras, solo asoma un poco
+  c.save();
+  c.translate(dx+PW/2, dy+PH);
+  c.rotate(tilt);
+  c.scale(-1,1);                       // mirando hacia la monja
+  c.drawImage(IMG.per, o.t.i*PW, 0, PW, PH, -PW/2, -PH, PW, PH);
+  c.restore();
+}
+function drawItem(o){
+  if(!IMG.obj.complete || !IMG.obj.width) return;
+  c.drawImage(IMG.obj, o.t.i*OW, 0, OW, OH, o.x-(OW-o.w)/2, o.y+o.h-OH+4, OW, OH);
+}
+var BAD=[
+  {d:drawPerson, i:0, w:112, h:150, cat:'compa'},
+  {d:drawPerson, i:1, w:100, h:153, cat:'compa', rueda:1.5},
+  {d:drawPerson, i:2, w:66,  h:190, cat:'compa'},
+  {d:drawPerson, i:3, w:85,  h:195, cat:'jefe'},
+  {d:drawPerson, i:4, w:84,  h:192, cat:'cli'}
+];
+var TODOS=[0,1,2,3,4];          // los cinco salen en cualquier tramo, al azar
+var ZONAS=[
+  {nom:'OPEN SPACE', bad:TODOS},
+  {nom:'CABINAS',    bad:TODOS},
+  {nom:'DESPACHOS',  bad:TODOS},
+  {nom:'COMEDOR',    bad:TODOS}
+];
+var GOOD=[
+  {d:drawItem, i:0, w:42, h:58, pts:100},
+  {d:drawItem, i:1, w:72, h:66, pts:150},
+  {d:drawItem, i:2, w:54, h:78, pts:250}
+];
+
+/* ---------- estado ---------- */
+var S={}, best=0;
+try{ best=parseInt(localStorage.getItem('holyrun.best')||'0',10)||0; }catch(e){}
+
+function reset(){
+  S={mode:'ready', t:0, scroll:0, speed:3.4, y:0, vy:0, jumps:0,
+     ents:[], drops:[], hosts:[], blessed:[], ammo:3, cool:0,
+     nextBad:220, nextDrop:230, score:0, anim:0, flash:0, zona:0, zmsg:70, zpend:0};
+}
+reset();
+
+/* ---------- sonido: todo sintetizado, cero archivos ----------
+   Ondas cuadradas, triangulares y ruido, que es exactamente de lo que
+   estaban hechas las maquinas de la epoca. No descarga nada. */
+var AU={ctx:null, master:null, musGain:null, sfxGain:null, mus:true, sfx:true, tocando:false, paso:0, next:0, reloj:0};
+try{ AU.mus = localStorage.getItem('holyrun.musica')!=='0'; }catch(e){}
+try{ AU.sfx = localStorage.getItem('holyrun.efectos')!=='0'; }catch(e){}
+
+function audioInit(){
+  if(AU.ctx) return;
+  var C = window.AudioContext || window.webkitAudioContext;
+  if(!C) return;
+  AU.ctx = new C();
+  AU.master = AU.ctx.createGain(); AU.master.gain.value = 0.55;
+  AU.master.connect(AU.ctx.destination);
+  AU.musGain = AU.ctx.createGain(); AU.musGain.gain.value = AU.mus ? 0.52 : 0;
+  AU.sfxGain = AU.ctx.createGain(); AU.sfxGain.gain.value = AU.sfx ? 1 : 0;
+  AU.musGain.connect(AU.master); AU.sfxGain.connect(AU.master);
+
+}
+function musicaToggle(){
+  audioInit(); AU.mus = !AU.mus;
+  if(AU.musGain) AU.musGain.gain.setTargetAtTime(AU.mus?0.52:0, AU.ctx.currentTime, 0.03);
+  if(AU.mus && S.mode==='play') musicaOn();     // en pausa no arranca sola
+  try{ localStorage.setItem('holyrun.musica', AU.mus?'1':'0'); }catch(e){}
+}
+function sonidoToggle(){
+  audioInit();
+  var hay = AU.mus || AU.sfx;
+  AU.mus = AU.sfx = !hay;                       // la chapa apaga o enciende todo
+  if(AU.musGain) AU.musGain.gain.setTargetAtTime(AU.mus?0.52:0, AU.ctx.currentTime, 0.03);
+  if(AU.sfxGain) AU.sfxGain.gain.setTargetAtTime(AU.sfx?1:0,    AU.ctx.currentTime, 0.02);
+  if(AU.mus && S.mode==='play') musicaOn();
+  try{ localStorage.setItem('holyrun.musica',  AU.mus?'1':'0');
+       localStorage.setItem('holyrun.efectos', AU.sfx?'1':'0'); }catch(e){}
+}
+function efectosToggle(){
+  audioInit(); AU.sfx = !AU.sfx;
+  if(AU.sfxGain) AU.sfxGain.gain.setTargetAtTime(AU.sfx?1:0, AU.ctx.currentTime, 0.02);
+  try{ localStorage.setItem('holyrun.efectos', AU.sfx?'1':'0'); }catch(e){}
+}
+// una nota: onda, frecuencia inicial y final, duracion y volumen
+function tono(onda, f0, f1, dur, vol, dest, t0){
+  if(!AU.ctx) return;
+  t0 = t0 || AU.ctx.currentTime;
+  var o = AU.ctx.createOscillator(), g = AU.ctx.createGain();
+  o.type = onda;
+  o.frequency.setValueAtTime(f0, t0);
+  if(f1 && f1!==f0) o.frequency.exponentialRampToValueAtTime(Math.max(1,f1), t0+dur);
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.exponentialRampToValueAtTime(vol, t0+0.006);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+  o.connect(g); g.connect(dest||AU.sfxGain);
+  o.start(t0); o.stop(t0+dur+0.02);
+}
+function ruido(dur, vol, hp, t0, dest){
+  if(!AU.ctx) return;
+  t0 = t0 || AU.ctx.currentTime;
+  var n = Math.floor(AU.ctx.sampleRate*dur);
+  var b = AU.ctx.createBuffer(1, n, AU.ctx.sampleRate), d = b.getChannelData(0);
+  for(var i=0;i<n;i++) d[i] = (Math.random()*2-1) * (1 - i/n);
+  var s = AU.ctx.createBufferSource(); s.buffer = b;
+  var f = AU.ctx.createBiquadFilter(); f.type='highpass'; f.frequency.value = hp||1200;
+  var g = AU.ctx.createGain(); g.gain.value = vol;
+  s.connect(f); f.connect(g); g.connect(dest||AU.sfxGain);
+  s.start(t0);
+}
+var SFX={
+  salto:  function(){ tono('square',200,620,0.13,0.20); },
+  oblea:  function(){ tono('triangle',880,1500,0.09,0.16); ruido(0.07,0.07,2600); },
+  bendice:function(){ var t=AU.ctx?AU.ctx.currentTime:0;          // arpegio ascendente, como de bendicion
+            [523,659,784,1047].forEach(function(f,k){ tono('square',f,f,0.09,0.15,null,t+k*0.045); }); },
+  coge:   function(){ var t=AU.ctx?AU.ctx.currentTime:0;          // la moneda de toda la vida
+            tono('square',988,988,0.06,0.18,null,t); tono('square',1319,1319,0.14,0.18,null,t+0.06); },
+  muere:  function(){ var t=AU.ctx?AU.ctx.currentTime:0;
+            tono('square',440,330,0.12,0.20,null,t);
+            tono('square',330,247,0.12,0.20,null,t+0.12);
+            tono('square',247,98,0.42,0.22,null,t+0.24); ruido(0.3,0.05,400,t+0.24); }
+};
+/* ---- la musica: "Virgen Santa, Danos Luz" ----
+   Ya no se sintetiza: suena la cancion. El archivo NO se descarga al abrir la
+   pagina, solo la primera vez que alguien le da a jugar, y queda en memoria
+   para las partidas siguientes.
+   La cabeza del archivo esta INTACTA: entra a plena potencia desde el primer
+   segundo. El fundido encadenado va al FINAL, mezclando el segundo que precede
+   a 8,5 s, de modo que al llegar a 61,40 s ya estamos oyendo lo que desemboca
+   en 8,5 y el salto no se nota (coste de discontinuidad 0,61 frente a 1,26 sin
+   fundido). Resultado: la entrada suena una vez entera y luego el tema gira
+   sobre 52,9 s. Cada partida nueva arranca desde el principio, asi que el
+   bucle solo lo oye quien aguante mas de un minuto. */
+var MUSICA = { url:'musica.mp3', buf:null, fuente:null, pidiendo:false, fallo:false };
+function musicaCarga(){
+  if(MUSICA.buf || MUSICA.pidiendo || MUSICA.fallo || !AU.ctx) return Promise.resolve();
+  MUSICA.pidiendo = true;
+  return fetch(MUSICA.url)
+    .then(function(r){ if(!r.ok) throw 0; return r.arrayBuffer(); })
+    .then(function(ab){ return AU.ctx.decodeAudioData(ab); })
+    .then(function(b){ MUSICA.buf=b; MUSICA.pidiendo=false; })
+    .catch(function(){ MUSICA.pidiendo=false; MUSICA.buf=null; MUSICA.fallo=true; });  // se intenta una vez; sin musica el juego sigue igual
+}
+function musicaOn(){
+  audioInit();
+  if(!AU.ctx) return;
+  if(MUSICA.fallo) return;
+  if(!MUSICA.buf){ musicaCarga().then(function(){ if(MUSICA.buf && AU.mus && S.mode==='play') musicaOn(); }); return; }
+  musicaOff();
+  var f = AU.ctx.createBufferSource();
+  f.buffer = MUSICA.buf; f.loop = true;
+  f.loopStart = 8.5; f.loopEnd = 61.40;            // la entrada queda fuera del bucle
+  f.connect(AU.musGain); f.start(0);
+  MUSICA.fuente = f; AU.tocando = true;
+}
+function musicaOff(){
+  if(MUSICA.fuente){ try{ MUSICA.fuente.stop(); }catch(e){} try{ MUSICA.fuente.disconnect(); }catch(e){} }
+  MUSICA.fuente = null; AU.tocando = false;
+}
+
+function chapa(bx, by, bw, bh, activo){
+  c.fillStyle = activo ? 'rgba(20,16,24,.66)' : 'rgba(20,16,24,.40)';
+  c.fillRect(bx, by, bw, bh);
+  c.strokeStyle = activo ? 'rgba(242,234,217,.80)' : 'rgba(242,234,217,.32)';
+  c.lineWidth = 1.5; c.strokeRect(bx+0.75, by+0.75, bw-1.5, bh-1.5);
+}
+function iconoVolumen(ax, ay, activo){
+  c.strokeStyle = c.fillStyle = activo ? P.paper : 'rgba(242,234,217,.42)';
+  c.lineWidth = 2;
+  c.beginPath();
+  c.moveTo(ax-6, ay-2); c.lineTo(ax-3, ay-2); c.lineTo(ax+1, ay-6);
+  c.lineTo(ax+1, ay+6); c.lineTo(ax-3, ay+2); c.lineTo(ax-6, ay+2); c.closePath();
+  c.fill();
+  if(activo){
+    c.beginPath(); c.arc(ax+2, ay, 4, -0.85, 0.85); c.stroke();
+    c.beginPath(); c.arc(ax+2, ay, 7, -0.85, 0.85); c.stroke();
+  }else{
+    c.beginPath(); c.moveTo(ax+4, ay-4); c.lineTo(ax+9, ay+4);
+    c.moveTo(ax+9, ay-4); c.lineTo(ax+4, ay+4); c.stroke();
+  }
+}
+function iconoPausa(ax, ay, pausado){
+  c.fillStyle = P.paper;
+  if(pausado){
+    c.beginPath(); c.moveTo(ax-3, ay-6); c.lineTo(ax+6, ay); c.lineTo(ax-3, ay+6); c.closePath(); c.fill();
+  }else{
+    c.fillRect(ax-5, ay-6, 4, 12); c.fillRect(ax+1, ay-6, 4, 12);
+  }
+}
+// dos chapas pequenas arriba a la derecha, donde no estorban al marcador
+var BOT={ pau:[W-94, 14, 38, 26], vol:[W-48, 14, 38, 26] };
+function botonesAudio(){
+  c.save();
+  var u=BOT.pau, v=BOT.vol, hay=(AU.mus||AU.sfx);
+  chapa(u[0], u[1], u[2], u[3], true);  iconoPausa(u[0]+u[2]/2, u[1]+u[3]/2, S.mode==='pause');
+  chapa(v[0], v[1], v[2], v[3], hay);   iconoVolumen(v[0]+v[2]/2, v[1]+v[3]/2, hay);
+  c.restore();
+}
+function aCanvas(e){
+  // el canvas se pinta con object-fit: contain, asi que dentro del elemento la
+  // imagen va centrada y con bandas. Medir contra la caja del elemento manda el
+  // clic a otro sitio; hay que medir contra la imagen de verdad.
+  var r=cv.getBoundingClientRect();
+  var esc=Math.min(r.width/W, r.height/H);
+  var ox=r.left+(r.width-W*esc)/2, oy=r.top+(r.height-H*esc)/2;
+  return { x:(e.clientX-ox)/esc, y:(e.clientY-oy)/esc };
+}
+function dentroDe(caja, px2, py2){
+  return px2>=caja[0] && px2<=caja[0]+caja[2] && py2>=caja[1] && py2<=caja[1]+caja[3];
+}
+function pausaToggle(){
+  if(S.mode==='play'){ S.mode='pause'; musicaOff(); return; }
+  if(S.mode==='pause'){ S.mode='play'; if(AU.mus) musicaOn(); }
+}
+function startOrRestart(){
+  if(S.mode==='pause'){ pausaToggle(); return true; }      // cualquier tecla reanuda
+  if(S.mode==='ready'){ S.mode='play'; audioInit(); if(AU.mus) musicaOn(); return true; }
+  if(S.mode==='dead'){ if(S.t>26){ reset(); S.mode='play'; musicaOff(); if(AU.mus) musicaOn(); } return true; }
+  return false;
+}
+function jump(){
+  if(startOrRestart()) return;
+  if(S.jumps===0){ S.vy=-17.4; S.jumps=1; SFX.salto(); }
+}
+function throwHost(){
+  if(startOrRestart()) return;
+  if(S.ammo>0 && S.cool<=0){
+    S.ammo--; S.cool=14;
+    S.hosts.push({x:NCX+34, y:GROUND-NH*0.56+S.y, vx:9.6, spin:0});
+    SFX.oblea();
+  }
+}
+
+/* ---------- entrada ---------- */
+var over=false;
+cv.addEventListener('pointerenter',function(){over=true;});
+cv.addEventListener('pointerleave',function(){over=false;});
+cv.addEventListener('contextmenu',function(e){e.preventDefault();});
+cv.addEventListener('pointerdown',function(e){
+  e.preventDefault(); over=true; try{cv.focus();}catch(err){}
+  if(e.button===2){ throwHost(); return; }        // boton derecho del raton
+  var q=aCanvas(e);
+  if(dentroDe(BOT.pau, q.x, q.y)){ pausaToggle();   return; }   // las chapas no juegan
+  if(dentroDe(BOT.vol, q.x, q.y)){ sonidoToggle();  return; }
+  if(q.x < W/2) throwHost(); else jump();           // izquierda oblea, derecha salto
+});
+function onKey(e){
+  if(e.repeat) return;
+  if(e.__hr) return; e.__hr=1;        // el manejador esta en window, document y canvas:
+                                      // sin esto la misma pulsacion entra dos veces
+
+  var j = (e.code==='Space'||e.code==='ArrowUp'||e.code==='KeyW');
+  var h = (e.code==='KeyX'||e.code==='ArrowDown'||e.code==='Enter'||e.code==='KeyS');
+  if(e.code==='KeyP'||e.code==='Escape'){ e.preventDefault(); if(S.mode==='play'||S.mode==='pause') pausaToggle(); return; }
+  if(e.code==='KeyM'){ e.preventDefault(); musicaToggle();  return; }
+  if(e.code==='KeyN'){ e.preventDefault(); efectosToggle(); return; }
+  if(!j && !h) return;
+  e.preventDefault(); if(j) jump(); else throwHost();
+}
+window.addEventListener('keydown', onKey);
+document.addEventListener('keydown', onKey);
+cv.addEventListener('keydown', onKey);
+
+/* ---------- logica ---------- */
+function update(){
+  S.t++;
+  if(S.flash>0) S.flash--;
+  if(S.mode==='pause') return;                    // en pausa no se mueve ni el fondo
+  if(S.mode!=='play'){ S.scroll+=1.1; return; }
+
+  S.speed += 0.00040;
+  S.scroll += S.speed;
+  S.score  += S.speed*0.07;
+
+  S.vy += 0.52;
+  S.y  += S.vy;
+  if(S.y>0){ S.y=0; S.vy=0; S.jumps=0; }
+
+  S.anim += (S.jumps===0 && S.y===0) ? 1 : 0;
+  if(S.cool>0) S.cool--;
+
+  for(var hq=S.hosts.length-1;hq>=0;hq--){
+    var ho=S.hosts[hq];
+    ho.x += ho.vx - S.speed*0.15; ho.spin += 0.34;
+    if(ho.x>W+30){ S.hosts.splice(hq,1); continue; }
+    for(var hz=S.ents.length-1;hz>=0;hz--){
+      var vt=S.ents[hz];
+      if(ho.x>vt.x && ho.x<vt.x+vt.w && ho.y>vt.y && ho.y<vt.y+vt.h){
+        S.blessed.push({t:vt.t, x:vt.x, y:vt.y, w:vt.w, h:vt.h, seed:vt.seed, life:34});
+        S.ents.splice(hz,1); S.hosts.splice(hq,1); S.score+=120; SFX.bendice();
+        break;
+      }
+    }
+  }
+  for(var bq=S.blessed.length-1;bq>=0;bq--){
+    var bl=S.blessed[bq]; bl.x-=S.speed; bl.life--;
+    if(bl.life<=0) S.blessed.splice(bq,1);
+  }
+
+  if(TW){
+    // la monja entra en una zona cuando su tramo entra en pantalla, un poco antes del centro
+    var zAhora = Math.floor((((S.scroll + W*0.55) % TW) + TW) % TW / ZL) % ZONAS.length;
+    if(zAhora!==S.zona){ S.zona=zAhora; S.zpend=1; }
+  }
+  if(S.zmsg>0) S.zmsg--;
+  if(--S.nextBad<=0){
+    var pool=ZONAS[S.zona].bad;
+    var b=BAD[pool[(Math.random()*pool.length)|0]];
+    if(S.zpend){ S.zpend=0; S.zmsg=70; }
+    S.ents.push({t:b, x:W+40, y:GROUND-b.h, w:b.w, h:b.h, seed:(Math.random()*100)|0, txt:fraseDe(b.cat)});
+    S.nextBad = 170 + Math.random()*140;
+    if(Math.random()<0.34) S.nextDrop = 30 + Math.random()*24;  // el mismo salto sirve para las dos cosas
+  }
+  if(--S.nextDrop<=0){
+    var g=GOOD[(Math.random()*GOOD.length)|0];
+    // cae desde el techo y se calcula para cruzar a la altura del salto justo al pasar por delante
+    var x0 = NCX + 380 + Math.random()*260;
+    var tt = (x0-NCX)/(S.speed*0.82);
+    // tres tipos de caida: a ras de suelo, a media altura, y una que roza el techo del salto
+    // corriendo se alcanza hasta 232 px sobre el suelo y saltando hasta 412:
+    // todo lo que cae va en medio, asi que SIEMPRE hay que saltar para cogerlo
+    var alturaCorte = GROUND - (250 + Math.random()*140);
+    var vy0 = (alturaCorte + g.h) / tt;
+    S.drops.push({t:g, x:x0, y:-g.h, w:g.w, h:g.h, vy:vy0, got:false, dead:0, spin:Math.random()*6});
+    S.nextDrop = 260 + Math.random()*230;
+  }
+
+  var nL=NCX-NHW, nR=NCX+NHW, nTop=GROUND-NH+S.y;
+
+  for(var i=S.ents.length-1;i>=0;i--){
+    var o=S.ents[i]; o.x-=S.speed+(o.t.rueda||0);
+    if(o.x<-o.w-20){ S.ents.splice(i,1); continue; }
+    if(nR>o.x+o.w*0.30 && nL<o.x+o.w*0.70 && GROUND-6+S.y>o.y+o.h*0.64){
+      S.mode='dead'; S.t=0; musicaOff(); SFX.muere();
+      if(S.score>best){ best=S.score|0; try{localStorage.setItem('holyrun.best',best);}catch(e){} }
+    }
+  }
+  for(var j=S.drops.length-1;j>=0;j--){
+    var d=S.drops[j];
+    if(d.dead){ d.dead--; d.x-=S.speed; if(d.dead<=0) S.drops.splice(j,1); continue; }
+    d.x-=S.speed*0.82; d.y+=d.vy; d.spin+=0.05;
+    if(d.y>GROUND-d.h+4){ d.dead=18; d.y=GROUND-d.h+4; continue; }   // toca el suelo: se pierde
+    if(d.x<-d.w-20){ S.drops.splice(j,1); continue; }
+    if(!d.got && !d.dead && nR>d.x && nL<d.x+d.w && GROUND-10+S.y>d.y && nTop+30<d.y+d.h){
+      d.got=true; S.score+=d.t.pts; S.flash=10; if(S.ammo<5) S.ammo++; S.drops.splice(j,1); SFX.coge();
+    }
+  }
+}
+
+/* ---------- dibujo ---------- */
+function frameIndex(){
+  if(S.jumps>0 || S.y<-2){
+    if(S.vy<-7) return 5;                      // subiendo
+    if(S.vy< 5) return 6;                      // punto alto / bomba
+    return 7;                                  // cayendo
+  }
+  if(S.mode!=='play') return 0;
+  return (S.anim/7|0)%4;                       // ciclo de carrera, 4 pasos
+}
+// rebote vertical propio de la carrera, puesto por el motor
+var BOB=[0,2,-3,-5];
+function runBob(){
+  if(S.jumps>0 || S.y<-2 || S.mode!=='play') return 0;
+  return BOB[(S.anim/7|0)%4];
+}
+
+function render(){
+  // fondo: la imagen seguida de su espejo, asi los bordes casan y no hay costura
+  if(!TILE && IMG.bg.complete && IMG.bg.width && IMG.bg1.complete && IMG.bg2.complete && IMG.bg3.complete){
+    // un unico lienzo: cada tramo va seguido de su espejo, asi esos bordes casan solos,
+    // y las uniones que quedan se tapan con un tabique con puerta
+    var src=[IMG.bg, IMG.bg1, IMG.bg2, IMG.bg3], NZ=src.length;
+    var w=IMG.bg.width, h=IMG.bg.height;
+    TILE=document.createElement('canvas'); TILE.width=w*2*NZ; TILE.height=h; TW=TILE.width;
+    var tc=TILE.getContext('2d'); tc.imageSmoothingEnabled=false;
+    for(var z=0;z<NZ;z++){
+      tc.drawImage(src[z], z*2*w, 0);
+      tc.save(); tc.translate((z*2+2)*w, 0); tc.scale(-1,1); tc.drawImage(src[z], 0, 0); tc.restore();
+    }
+    for(var u=1;u<NZ;u++) tabique(tc, u*2*w, h);  // uniones interiores
+    tabique(tc, 0, h); tabique(tc, NZ*2*w, h);    // la de cierre, en sus dos mitades
+    ZL = w*2;                                     // cada zona dura dos pantallas
+  }
+  if(TILE){
+    var sx=S.scroll%TW, rest=TW-sx;
+    if(rest>=W){ c.drawImage(TILE, sx,0, W,H, 0,0, W,H); }
+    else{
+      c.drawImage(TILE, sx,0, rest,H, 0,0, rest,H);
+      c.drawImage(TILE, 0,0, W-rest,H, rest,0, W-rest,H);
+    }
+  } else { c.fillStyle='#6f6c7a'; c.fillRect(0,0,W,H); }
+
+  for(var i=0;i<S.ents.length;i++){ var o=S.ents[i]; shadow(o.x+o.w/2,o.w,1); o.t.d(o); }
+  for(var ib=0;ib<S.ents.length;ib++){
+    var ob=S.ents[ib];
+    if(ob.txt && ob.x<W-60 && ob.x>NCX-40) bocadillo(ob.x+ob.w/2, ob.y+6, ob.txt);
+  }
+  for(var j=0;j<S.drops.length;j++){
+    var d=S.drops[j];
+    c.save();
+    if(d.dead){ c.globalAlpha=d.dead/18; }
+    c.translate(d.x+d.w/2, d.y+d.h/2);
+    c.rotate(d.dead ? 0 : Math.sin(d.spin)*0.22);
+    c.translate(-d.w/2,-d.h/2);
+    d.t.d({x:0,y:0,w:d.w,h:d.h,t:d.t});
+    c.restore();
+    if(d.dead){                                   // chispas al perderlo
+      c.save(); c.globalAlpha=d.dead/26; c.fillStyle=P.paper;
+      for(var sp=0;sp<4;sp++){
+        var a2=(sp/4)*6.28, r2=(18-d.dead)*2.2;
+        c.fillRect(d.x+d.w/2+Math.cos(a2)*r2, d.y+d.h-Math.abs(Math.sin(a2))*r2, 4,4);
+      }
+      c.restore();
+    }
+  }
+
+  // bendecidos: se iluminan, juntan las manos y se retiran
+  for(var bb=0;bb<S.blessed.length;bb++){
+    var B=S.blessed[bb], p=1-B.life/34;
+    c.save(); c.globalAlpha=Math.max(0,1-p*1.1);
+    c.translate(B.x+B.w/2, B.y+B.h*(1-p*0.18)); c.translate(-B.w/2,-B.h);
+    B.t.d({x:0,y:0,w:B.w,h:B.h,seed:B.seed,t:B.t});
+    c.restore();
+    c.save(); c.globalAlpha=Math.max(0,0.85-p); c.strokeStyle=P.gold; c.lineWidth=5;
+    c.beginPath(); c.ellipse(B.x+B.w/2, B.y-8-p*26, B.w*0.34, 9, 0, 0, 6.3); c.stroke();
+    c.restore();
+  }
+  // obleas en vuelo
+  for(var hh=0;hh<S.hosts.length;hh++){
+    var HO=S.hosts[hh];
+    var ry=4+Math.abs(Math.sin(HO.spin))*5;        // gira de canto, como un frisbee
+    c.save(); c.translate(HO.x,HO.y);
+    c.fillStyle=P.ink;    c.beginPath(); c.ellipse(0,0,16,ry+2.5,0,0,6.3); c.fill();
+    c.fillStyle='#ffffff';c.beginPath(); c.ellipse(0,0,13,ry,0,0,6.3); c.fill();
+    c.fillStyle='#ded5c2';c.beginPath(); c.ellipse(0,ry*0.35,11,ry*0.4,0,0,6.3); c.fill();
+    c.restore();
+    c.save(); c.globalAlpha=.22; c.fillStyle='#ffffff';
+    c.beginPath(); c.ellipse(HO.x-20,HO.y,11,ry*0.7,0,0,6.3); c.fill();
+    c.beginPath(); c.ellipse(HO.x-38,HO.y,7,ry*0.5,0,0,6.3); c.fill(); c.restore();
+  }
+
+  // monja
+  var dx=NCX-FW/2, dy=GROUND-FOOT+S.y+runBob();
+  shadow(NCX, 92, S.y<-4?0.55:1);
+  if(IMG.nun.complete && IMG.nun.width){
+    c.drawImage(IMG.nun, frameIndex()*FW,0,FW,FH, dx,dy, FW,FH);
+  }
+
+  // marcador, discreto, sin barra
+  c.save();
+  c.font='700 22px ui-monospace, Menlo, monospace'; c.textBaseline='top';
+  var txt=('000000'+(S.score|0)).slice(-6);
+  c.lineWidth=5; c.strokeStyle='rgba(20,16,24,.85)'; c.strokeText(txt, 26, 22);
+  c.fillStyle=P.paper; c.fillText(txt, 26, 22);
+  c.font='500 13px ui-monospace, Menlo, monospace';
+  for(var am=0;am<S.ammo;am++){
+    c.fillStyle=P.ink;    c.beginPath(); c.ellipse(208+am*26, 33, 11, 5, 0, 0, 6.3); c.fill();
+    c.fillStyle='#ffffff';c.beginPath(); c.ellipse(208+am*26, 33, 9, 3.4, 0, 0, 6.3); c.fill();
+  }
+  var hs='RECORD '+('000000'+best).slice(-6);
+  c.lineWidth=4; c.strokeText(hs, 26, 50); c.fillStyle='rgba(242,234,217,.72)'; c.fillText(hs, 26, 50);
+  botonesAudio();
+  c.restore();
+
+  if(S.zmsg>0 && S.mode==='play'){
+    c.save(); c.globalAlpha=Math.min(1,S.zmsg/22);
+    c.font='700 17px ui-monospace, Menlo, monospace'; c.textAlign='center';
+    c.lineWidth=5; c.strokeStyle='rgba(20,16,24,.85)';
+    c.strokeText(ZONAS[S.zona].nom, W/2, 26);
+    c.fillStyle=P.gold; c.fillText(ZONAS[S.zona].nom, W/2, 26);
+    c.restore();
+  }
+  if(S.mode==='ready') panel('THE HOLY RUN','ESPACIO SALTA  ·  X LANZA LA OBLEA   (en movil: derecha salta, izquierda lanza)');
+  if(S.mode==='dead')  panel('EL BRIEF PUDO CONTIGO','PULSA PARA VOLVER A JUGAR');
+  if(S.mode==='pause') panel('UN MOMENTO DE SILENCIO','PULSA P O LA CHAPA PARA SEGUIR');
+}
+
+function panel(title, sub){
+  c.save();
+  c.fillStyle='rgba(21,18,26,.72)'; c.fillRect(0,H*0.30,W,H*0.30);
+  c.fillStyle=P.gold; c.fillRect(0,H*0.30,W,3); c.fillRect(0,H*0.60-3,W,3);
+  c.textAlign='center';
+  c.font='800 44px ui-monospace, Menlo, monospace';
+  c.lineWidth=7; c.strokeStyle='#15121a'; c.strokeText(title, W/2, H*0.405);
+  c.fillStyle=P.paper; c.fillText(title, W/2, H*0.405);
+  c.font='500 15px ui-monospace, Menlo, monospace';
+  c.fillStyle='rgba(242,234,217,.82)'; c.fillText(sub, W/2, H*0.475);
+  if(S.mode==='dead'){
+    c.font='500 14px ui-monospace, Menlo, monospace';
+    c.fillStyle=P.gold; c.fillText('PUNTOS '+(S.score|0)+'   ·   RECORD '+best, W/2, H*0.525);
+  }
+  c.restore();
+}
+
+var STEP=1000/60, acc=0, last=0;
+function loop(now){
+  if(!last) last=now;
+  var dt=now-last; last=now;
+  if(dt>250) dt=250;                 // pestana en segundo plano: no acumular
+  acc+=dt;
+  var guard=0;
+  while(acc>=STEP && guard<6){ update(); acc-=STEP; guard++; }
+  if(guard>=6) acc=0;
+  render();
+  requestAnimationFrame(loop);
+}
+var boot=setInterval(function(){ if(loaded>=NEED){ clearInterval(boot); requestAnimationFrame(loop); } },60);
+setTimeout(function(){ clearInterval(boot); requestAnimationFrame(loop); }, 4000);
+})();
+</script>
+</body>
+</html>
