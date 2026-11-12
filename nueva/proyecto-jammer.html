@@ -57,6 +57,10 @@ a:hover{opacity:0.7}
 <style>
 section[aria-label="Siguiente proyecto"] .p9-media img{animation:none!important;opacity:1!important;transform:none!important}
 .m-statement em{vertical-align:baseline}
+.vs-copy{position:relative;font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;letter-spacing:inherit}
+.vs-copy::after{content:"Copiado";position:absolute;left:50%;bottom:calc(100% + 8px);transform:translate(-50%,4px);background:#121212;color:#fff;font-size:12px;font-weight:400;letter-spacing:0;line-height:1;padding:7px 10px;border-radius:999px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease}
+.vs-copy.is-copied::after{opacity:1;transform:translate(-50%,0)}
+footer .vs-copy::after{background:#ffffff;color:#121212}
 .vs-bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;align-items:flex-start;padding:22px 28px;pointer-events:none;color:#121212}
 .vs-bar a{pointer-events:auto;color:#121212;text-decoration:none}
 .vs-logo img{height:52px;width:auto;display:block}
@@ -224,7 +228,7 @@ button{font-family:inherit}
 </nav>
 </div>
 <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; font-size: 14px; font-weight: 400">
-<span>© 2026 Virgen Santa Creative Studio · Barcelona</span>
+<span>© 2026 Virgen Santa · <button type="button" class="vs-copy" data-copy="hola@virgensanta.studio" title="Copiar email">hola@virgensanta.studio</button></span>
 <nav aria-label="Legal" style="display: flex; gap: 24px">
 <a href="aviso-legal.html" style="color: #ffffff">Aviso legal</a>
 <a href="privacidad.html" style="color: #ffffff">Privacidad</a>
@@ -267,14 +271,22 @@ button{font-family:inherit}
     c.addEventListener('mouseenter',function(){if(cur)cur.classList.add('big');if(v&&!reduce){v.muted=true;try{v.currentTime=0}catch(e){}var p=v.play();if(p&&p.catch)p.catch(function(){})}});
     c.addEventListener('mouseleave',function(){if(cur)cur.classList.remove('big');if(v)v.pause()});
   });
+  // mailto en pestaña nueva + copiar email
+  document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){a.setAttribute('target','_blank');a.setAttribute('rel','noopener')});
+  document.querySelectorAll('[data-copy]').forEach(function(el){el.addEventListener('click',function(){
+    var t=el.getAttribute('data-copy');
+    function ok(){el.classList.add('is-copied');clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove('is-copied')},1600)}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){fb()})}else{fb()}
+    function fb(){var x=document.createElement('textarea');x.value=t;x.style.position='fixed';x.style.opacity='0';document.body.appendChild(x);x.select();try{document.execCommand('copy');ok()}catch(e){}document.body.removeChild(x)}
+  })});
   // contact chips
   function vsMail(t){
     var M={
-      'Pedir presupuesto':['Pedir presupuesto','Hola, Virgen Santa:\n\nMe gustaría pedir presupuesto para un proyecto.\n\nQué necesitamos:\nPara cuándo:\nNuestra marca o web:\n\nGracias.'],
-      'Crear una marca':['Crear una marca','Hola, Virgen Santa:\n\nEstamos creando una marca desde cero y nos gustaría contar con vosotros.\n\nDe qué va el proyecto:\nPara cuándo:\n\nGracias.'],
-      'Reposicionar mi marca':['Reposicionar mi marca','Hola, Virgen Santa:\n\nTenemos una marca que necesita un nuevo enfoque y nos gustaría hablarlo con vosotros.\n\nNuestra marca o web:\nQué queremos cambiar:\n\nGracias.'],
-      'Contenido y campañas':['Contenido y campañas','Hola, Virgen Santa:\n\nNos gustaría trabajar con vosotros en contenido o en una campaña.\n\nNuestra marca o web:\nQué tenemos en mente:\nPara cuándo:\n\nGracias.'],
-      'Producción con IA':['Producción con IA','Hola, Virgen Santa:\n\nNos interesa una producción con IA y nos gustaría saber cómo trabajáis.\n\nQué tenemos en mente:\nPara cuándo:\n\nGracias.'],
+      'Pedir presupuesto':['Pedir presupuesto','Hola, Virgen Santa:\n\nMe gustaría pedir presupuesto para un proyecto.\n\nCuéntanos un poco de qué va el proyecto (qué necesitáis, para cuándo lo necesitáis, qué presupuesto tenéis en mente…):\n\n'],
+      'Crear una marca':['Crear una marca','Hola, Virgen Santa:\n\nEstamos creando una marca desde cero y nos gustaría contar con vosotros.\n\nCuéntanos un poco de qué va el proyecto (qué tipo de negocio es, si ya contáis con nombre o logotipo, qué presupuesto tenéis para abordarlo…):\n\n'],
+      'Reposicionar mi marca':['Reposicionar mi marca','Hola, Virgen Santa:\n\nTenemos una marca que necesita un nuevo enfoque y nos gustaría hablarlo con vosotros.\n\nCuéntanos un poco sobre vuestra marca (a qué os dedicáis, qué sentís que no funciona, qué presupuesto tenéis para abordarlo…):\n\n'],
+      'Contenido y campañas':['Contenido y campañas','Hola, Virgen Santa:\n\nNos gustaría trabajar con vosotros en contenido o en una campaña.\n\nCuéntanos un poco de qué va el proyecto (qué marca sois, qué tenéis en mente, para cuándo, qué presupuesto tenéis…):\n\n'],
+      'Producción con IA':['Producción con IA','Hola, Virgen Santa:\n\nNos interesa una producción con IA y nos gustaría saber cómo trabajáis.\n\nCuéntanos un poco de qué va el proyecto (qué queréis producir, dónde se va a ver, para cuándo, qué presupuesto tenéis…):\n\n'],
       'Otra cosa':['Hola, Virgen Santa','Hola, Virgen Santa:\n\n']
     };
     var m=t&&M[t]?M[t]:['Hola, Virgen Santa','Hola, Virgen Santa:\n\n'];
