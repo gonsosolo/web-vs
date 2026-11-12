@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /archivo-web-2025/
+
+Sitemap: https://virgensanta.studio/sitemap.xml

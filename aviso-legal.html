@@ -1,177 +1,259 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aviso legal — Virgen Santa</title>
+<meta name="description" content="Aviso legal de Virgen Santa Creative Studio.">
 <link rel="canonical" href="https://virgensanta.studio/aviso-legal.html">
-<title>Aviso Legal — Virgen Santa</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800;900&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://virgensanta.studio/aviso-legal.html">
+<meta property="og:site_name" content="Virgen Santa">
+<meta property="og:title" content="Aviso legal — Virgen Santa">
+<meta property="og:description" content="Aviso legal de Virgen Santa Creative Studio.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="fonts/fonts.css">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --white: #FFFFFF;
-  --light: #F4F4F4;
-  --ink: #0D0D0D;
-  --grey: #777777;
-  --grey2: #BBBBBB;
-  --rule: rgba(0,0,0,0.09);
+body{margin:0;background:#ffffff}
+a{color:#121212;text-decoration:none}
+a:hover{opacity:0.7}
+.p9-12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:20px}
+.p9-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.p9-wide{grid-column:1 / -1}
+.p9-tile{position:relative;display:block;overflow:hidden}
+.p9-tile:hover{opacity:1}
+.p9-tile img{transition:transform .8s ease}
+.p9-tile:hover img{transform:scale(1.02)}
+.p9-menu{opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity .3s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
+.p9-menu.is-open{opacity:1;transform:none;pointer-events:auto}
+.p9-menu li{opacity:0;transform:translateY(10px);transition:opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
+.p9-menu.is-open li{opacity:1;transform:none}
+.p9-menu.is-open li:nth-child(1){transition-delay:.06s}
+.p9-menu.is-open li:nth-child(2){transition-delay:.12s}
+.p9-menu.is-open li:nth-child(3){transition-delay:.18s}
+@media (prefers-reduced-motion: reduce){.p9-menu,.p9-menu li{transition:none}}
+@media (max-width:820px){.p9-grid{grid-template-columns:minmax(0,1fr)}.p9-12 > *{grid-column:1 / -1 !important}}
+.p9-root{cursor:none}
+.p9-root a,.p9-root button{cursor:none}
+.p9-cur{position:fixed;left:0;top:0;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:999px;background:#6E1423;pointer-events:none;z-index:50;transition:width .25s ease,height .25s ease,margin .25s ease,opacity .2s ease;opacity:0}
+.p9-cur.on{opacity:1}
+.p9-cur.big{width:56px;height:56px;margin:-28px 0 0 -28px;opacity:.9}
+.p9-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:56px 16px}
+.p9-card{display:flex;flex-direction:column;gap:12px}
+.p9-card:hover{opacity:1}
+.p9-media{position:relative;overflow:hidden;border-radius:10px;background:#eee}
+.p9-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0}
+.p9-media img:first-child{opacity:1}
+@keyframes p9cyc{0%{opacity:1}24.9%{opacity:1}25%{opacity:0}100%{opacity:0}}
+.p9-card:hover .p9-media img{animation:p9cyc 2.8s infinite}
+.p9-card:hover .p9-media img:nth-child(2){animation-delay:.7s}
+.p9-card:hover .p9-media img:nth-child(3){animation-delay:1.4s}
+.p9-card:hover .p9-media img:nth-child(4){animation-delay:2.1s}
+.p9-name{font-size:16px;font-weight:600}
+.p9-more{opacity:0;transform:translateY(4px);transition:opacity .35s ease,transform .35s ease}
+.p9-card:hover .p9-more{opacity:1;transform:none}
+.p9-wide{grid-column:1 / -1}
+@media (hover:none),(max-width:820px){.p9-more{opacity:1;transform:none}.p9-root,.p9-root a,.p9-root button{cursor:auto}.p9-cur{display:none}}
+@media (max-width:820px){.p9-cards{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion: reduce){.p9-card:hover .p9-media img{animation:none}.p9-more,.p9-cur{transition:none}}
+</style>
+<style>
+section[aria-label="Siguiente proyecto"] .p9-media img{animation:none!important;opacity:1!important;transform:none!important}
+.m-statement em{vertical-align:baseline}
+.vs-copy{position:relative;font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;letter-spacing:inherit}
+.vs-copy::after{content:"Copiado";position:absolute;left:50%;bottom:calc(100% + 8px);transform:translate(-50%,4px);background:#121212;color:#fff;font-size:12px;font-weight:400;letter-spacing:0;line-height:1;padding:7px 10px;border-radius:999px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease}
+.vs-copy.is-copied::after{opacity:1;transform:translate(-50%,0)}
+footer .vs-copy::after{background:#ffffff;color:#121212}
+.vs-bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;align-items:flex-start;padding:22px 28px;pointer-events:none;color:#121212}
+.vs-bar a{pointer-events:auto;color:#121212;text-decoration:none}
+.vs-logo img{height:52px;width:auto;display:block}
+.vs-bar a.vs-proj{margin-top:12px;display:inline-flex;align-items:center;gap:8px;padding:8px 14px 8px 12px;border-radius:999px;background:#121212;color:#ffffff;font-size:14px;font-weight:400;letter-spacing:-0.005em;line-height:1;transition:background-color .35s ease}
+.vs-proj svg{display:block;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.vs-bar a.vs-proj:hover,.vs-bar a.vs-proj:focus-visible{background:#6E1423;opacity:1}
+.vs-bar a:hover{opacity:1}
+.p9-cur{position:fixed;left:0;top:0;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:999px;background:#6E1423;pointer-events:none;z-index:50;transition:width .25s ease,height .25s ease,margin .25s ease,opacity .2s ease;opacity:0}
+.p9-cur.on{opacity:1}
+.p9-cur.big{width:56px;height:56px;margin:-28px 0 0 -28px;opacity:.9}
+@media (hover:hover) and (pointer:fine){html.has-cur,html.has-cur a,html.has-cur button{cursor:none}}
+@media (hover:none),(pointer:coarse){.p9-cur{display:none}}
+.vs-proj:hover svg,.vs-proj:focus-visible svg{transform:rotate(180deg)}
+@media (max-width:820px){.vs-bar{padding:16px 18px}.vs-logo img{height:40px}.vs-bar a.vs-proj{font-size:13px;margin-top:8px;padding:7px 12px 7px 10px}}
+.p9-cards .p9-media{max-height:calc(100svh - 240px)}
+.p9-card.is-play .p9-media video{opacity:1}
+.p9-cards a[href="proyecto-berasategui.html"] .p9-media img,.p9-cards a[href="proyecto-berasategui.html"] .p9-media video{object-position:center 15%}
+#estudio-v8 h1 em{vertical-align:0.26em}
+#llamada8 em{vertical-align:1em}
+@media (min-width:821px){header.v8-hero{height:100vh!important;height:100svh!important}
+.v8-tile img{aspect-ratio:auto!important;height:min(56.25vw,86vh)!important}
+.v8-tile span{bottom:56px!important;font-size:21px!important;line-height:1.3!important}}
+html{-webkit-text-size-adjust:100%}
+img,video{max-width:100%}
+button{font-family:inherit}
+.v8-play{transition:transform .3s ease}
+.v8-play:hover{transform:translate(-50%,-50%) scale(1.06)!important}
+@media (max-width:820px){
+  .m-row{grid-template-columns:minmax(0,1fr)!important}
+  .m-wall{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .m-wall>div:first-child{grid-column:span 2!important;grid-row:auto!important;aspect-ratio:16/9!important}
+  .m-layer{grid-template-columns:36px minmax(0,1fr)!important}
+  .m-layer>span:last-child{grid-column:2}
+  .m-phones{gap:14px!important}
+  .m-phones>div{width:42vw!important;transform:none!important}
+  .m-phones>div:last-child{display:none!important}
+  .m-foot-nav{gap:16px!important;font-size:14px!important;flex-wrap:wrap;justify-content:flex-end}
+  .m-foot-logo{width:84px!important}
+  .m-statement{font-size:clamp(36px,10vw,56px)!important}
+  .m-next-title{font-size:clamp(34px,10vw,56px)!important}
+  .m-hide{display:none!important}
+  footer{aspect-ratio:auto!important;min-height:30rem!important;width:100%}
+  section[aria-label="Siguiente proyecto"] .p9-media{aspect-ratio:4/3!important}
+  .p9-card>div[style*="grid-template-columns"]{grid-template-columns:minmax(0,1fr)!important;gap:6px!important}
+  .p9-card .p9-more[style*="text-align: right"]{display:none!important}
+  .lg-row>*{grid-column:1 / -1!important}
+  div[style="height: 120px"],div[style="height: 104px"]{height:48px!important}
+  section[aria-label="Siguiente proyecto"]{margin-top:72px!important}
+  section[aria-label="Contenido orgánico en Instagram"]{padding-top:56px!important;padding-bottom:48px!important}
+  .v8-tile span{bottom:16px!important}
+  .v8-row span{text-align:left!important}
+  footer{aspect-ratio:4/5!important;min-height:0!important}
+  .m-foot-video{width:320%!important;max-width:none!important;left:-110%!important;right:auto!important}
+  .m-hero{padding:0!important}
+  .m-hero>div{border-radius:0!important;aspect-ratio:4/3!important}
+  .m-hero-wide>div{aspect-ratio:16/9!important}
+  .m-meta{flex-direction:column!important;gap:14px!important}
+  .m-meta>div{text-align:left!important}
+  .m-block{gap:32px!important}
+  .m-row{gap:32px!important}
+  [data-tight]{gap:6px!important}
+  .m-rio{padding-top:64px!important;padding-bottom:64px!important}
+  section:has(>.m-statement){padding-top:80px!important;padding-bottom:80px!important}
+  .p9-wide .p9-media{aspect-ratio:5/6!important}
+  .p9-wide .p9-media img{object-position:22% center}
 }
-body {
-  background: var(--white);
-  color: var(--ink);
-  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-a { color: inherit; text-decoration: none; }
-
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 300;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24px 48px;
-  background: rgba(255,255,255,0.96);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--rule);
-}
-.nav-logo {
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-.nav-back {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--grey);
-  transition: color 0.2s;
-}
-.nav-back:hover { color: var(--ink); }
-
-.legal-wrap {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 140px 48px 100px;
-}
-.legal-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--grey2);
-  margin-bottom: 24px;
-}
-.legal-title {
-  font-size: clamp(32px, 5vw, 56px);
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
-  margin-bottom: 56px;
-  color: var(--ink);
-}
-.legal-section {
-  border-top: 1px solid var(--rule);
-  padding: 36px 0;
-}
-.legal-section h2 {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin-bottom: 12px;
-  color: var(--ink);
-}
-.legal-section p {
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 1.8;
-  color: var(--grey);
-}
-
-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 28px 48px;
-  border-top: 1px solid var(--rule);
-  background: var(--white);
-}
-.footer-copy {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--grey2);
-}
-.footer-center {
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  color: var(--ink);
-}
-.footer-legal {
-  display: flex;
-  gap: 24px;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--grey2);
-}
-.footer-legal a:hover { color: var(--ink); }
 </style>
 </head>
 <body>
-
-<nav>
-  <a href="index.html" class="nav-logo">Virgen Santa</a>
-  <a href="index.html" class="nav-back">← Volver</a>
+<div class="p9-root" style="position: relative; min-height: 100vh; display: flex; flex-direction: column; font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif; font-weight: 300; color: #121212; background: #ffffff; min-width: 0">
+<div aria-hidden="true" class="p9-cur"></div>
+<div class="vs-bar">
+<a class="vs-logo" href="index.html" aria-label="Virgen Santa, inicio"><img src="assets/804a1ae5dc.png" alt="Virgen Santa"></a>
+<a class="vs-proj" href="proyectos.html"><svg width="9" height="12" viewBox="0 0 14 18" aria-hidden="true"><path d="M5.5 0h3v5h5.5v3H8.5v10h-3V8H0V5h5.5z" fill="currentColor"/></svg>Proyectos</a>
+</div>
+<section style="padding: 188px clamp(28px, 6vw, 96px) 40px">
+<h1 style="margin: 0; font-size: clamp(52px, 7vw, 108px); font-weight: 400; letter-spacing: -0.055em; line-height: 0.92">Aviso legal</h1>
+</section>
+<section class="p9-12 m-rio" style="padding: 40px clamp(28px, 6vw, 96px) 120px; row-gap: 36px; border-top: 0">
+<div style="grid-column: 1 / -1; border-top: 1px solid #cfcfcf"></div>
+<div class="lg-row" style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; row-gap: 10px"><h2 style="grid-column: 1 / span 4; margin: 4px 0 0; font-size: 13px; font-weight: 500; color: #5c5c5c">Titular</h2>
+<p style="grid-column: 5 / span 7; margin: 0; font-size: 18px; line-height: 1.55">En cumplimiento con el deber de información recogido en el artículo 10 de la Ley 34/2002, se informa que el presente sitio web es titularidad de Virgen Santa Studio, con sede en Barcelona, España. Email: <a href="mailto:hola@virgensanta.studio">hola@virgensanta.studio</a></p></div>
+<div class="lg-row" style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; row-gap: 10px"><h2 style="grid-column: 1 / span 4; margin: 4px 0 0; font-size: 13px; font-weight: 500; color: #5c5c5c">Datos del titular</h2>
+<p style="grid-column: 5 / span 7; margin: 0; font-size: 18px; line-height: 1.55">Titular: Gonzalo Alonso Fernández<br>NIF: 35482105-M<br>Domicilio: Calle Pavia 15, ático 2, 08028 Barcelona</p></div>
+<div class="lg-row" style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; row-gap: 10px"><h2 style="grid-column: 1 / span 4; margin: 4px 0 0; font-size: 13px; font-weight: 500; color: #5c5c5c">Objeto</h2>
+<p style="grid-column: 5 / span 7; margin: 0; font-size: 18px; line-height: 1.55">El presente sitio web tiene como finalidad mostrar los servicios de dirección creativa, estrategia de marca y producción visual ofrecidos por Virgen Santa.</p></div>
+<div class="lg-row" style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; row-gap: 10px"><h2 style="grid-column: 1 / span 4; margin: 4px 0 0; font-size: 13px; font-weight: 500; color: #5c5c5c">Condiciones de uso</h2>
+<p style="grid-column: 5 / span 7; margin: 0; font-size: 18px; line-height: 1.55">El acceso y uso de este sitio web atribuye la condición de usuario, implicando la aceptación de las presentes condiciones.</p></div>
+<div class="lg-row" style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; row-gap: 10px"><h2 style="grid-column: 1 / span 4; margin: 4px 0 0; font-size: 13px; font-weight: 500; color: #5c5c5c">Propiedad intelectual</h2>
+<p style="grid-column: 5 / span 7; margin: 0; font-size: 18px; line-height: 1.55">Todos los contenidos de este sitio web (textos, imágenes, diseño) son propiedad de Virgen Santa o cuentan con licencia para su uso, quedando prohibida su reproducción sin autorización.</p></div>
+<div class="lg-row" style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 20px; row-gap: 10px"><h2 style="grid-column: 1 / span 4; margin: 4px 0 0; font-size: 13px; font-weight: 500; color: #5c5c5c">Responsabilidad</h2>
+<p style="grid-column: 5 / span 7; margin: 0; font-size: 18px; line-height: 1.55">Virgen Santa no se responsabiliza del uso indebido de los contenidos de esta web ni de posibles errores técnicos.</p></div>
+</section>
+<footer style="position: relative; aspect-ratio: 1920 / 800; min-height: 26rem; overflow: hidden; background: #0d0d0d; color: #ffffff">
+<video class="m-foot-video" data-loop autoplay muted src="assets/7e45b878f7.mp4" poster="assets/f35ffb6433.jpg" loop="loop" playsinline="playsinline" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block"></video>
+<div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(0,0,0,0.28)"></div>
+<div style="position: absolute; inset: 0; box-sizing: border-box; padding: 24px 28px; display: flex; flex-direction: column; justify-content: space-between">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 24px">
+<img class="m-foot-logo" src="assets/837c861818.png" alt="Virgen Santa" style="width: 112px; height: auto; display: block">
+<nav class="m-foot-nav" aria-label="Contacto y redes" style="display: flex; gap: 28px; font-size: 16px; font-weight: 400">
+<a href="mailto:hola@virgensanta.studio?subject=Hola%2C%20Virgen%20Santa&amp;body=Hola%2C%20Virgen%20Santa%3A%0D%0A%0D%0A" style="color: #ffffff">Contacto<svg aria-hidden="true" width="0.7em" height="0.7em" viewBox="0 0 10 10" style="display:inline-block;vertical-align:0.05em;margin-left:0.25em"><path d="M2 8L8 2M3.5 2H8V6.5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></a>
+<a href="https://www.instagram.com/virgensanta_studio/" target="_blank" rel="noopener" style="color: #ffffff">Instagram<svg aria-hidden="true" width="0.7em" height="0.7em" viewBox="0 0 10 10" style="display:inline-block;vertical-align:0.05em;margin-left:0.25em"><path d="M2 8L8 2M3.5 2H8V6.5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></a>
+<a href="https://www.linkedin.com/company/virgen-santa/" target="_blank" rel="noopener" style="color: #ffffff">LinkedIn<svg aria-hidden="true" width="0.7em" height="0.7em" viewBox="0 0 10 10" style="display:inline-block;vertical-align:0.05em;margin-left:0.25em"><path d="M2 8L8 2M3.5 2H8V6.5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></a>
 </nav>
-
-<main class="legal-wrap">
-  <div class="legal-label">Legal</div>
-  <h1 class="legal-title">Aviso Legal</h1>
-
-  <div class="legal-section">
-    <h2>Titular</h2>
-    <p>En cumplimiento con el deber de información recogido en el artículo 10 de la Ley 34/2002, se informa que el presente sitio web es titularidad de Virgen Santa Studio, con sede en Barcelona, España. Email: hola@virgensanta.studio</p>
-  </div>
-
-  <div class="legal-section">
-    <h2>Objeto</h2>
-    <p>El presente sitio web tiene como finalidad mostrar los servicios de dirección creativa, estrategia de marca y producción visual ofrecidos por Virgen Santa.</p>
-  </div>
-
-  <div class="legal-section">
-    <h2>Condiciones de uso</h2>
-    <p>El acceso y uso de este sitio web atribuye la condición de usuario, implicando la aceptación de las presentes condiciones.</p>
-  </div>
-
-  <div class="legal-section">
-    <h2>Propiedad intelectual</h2>
-    <p>Todos los contenidos de este sitio web (textos, imágenes, diseño) son propiedad de Virgen Santa o cuentan con licencia para su uso, quedando prohibida su reproducción sin autorización.</p>
-  </div>
-
-  <div class="legal-section">
-    <h2>Responsabilidad</h2>
-    <p>Virgen Santa no se responsabiliza del uso indebido de los contenidos de esta web ni de posibles errores técnicos.</p>
-  </div>
-</main>
-
-<footer>
-  <div class="footer-copy">© 2026 Virgen Santa Creative Studio</div>
-  <div class="footer-center">VS®</div>
-  <div class="footer-legal">
-    <a href="aviso-legal.html">Aviso Legal</a>
-    <a href="privacidad.html">Privacidad</a>
-    <a href="cookies.html">Cookies</a>
-  </div>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; font-size: 14px; font-weight: 400">
+<span>© 2026 Virgen Santa · <button type="button" class="vs-copy" data-copy="hola@virgensanta.studio" title="Copiar email">hola@virgensanta.studio</button></span>
+<nav aria-label="Legal" style="display: flex; gap: 24px">
+<a href="aviso-legal.html" style="color: #ffffff">Aviso legal</a>
+<a href="privacidad.html" style="color: #ffffff">Privacidad</a>
+<a href="cookies.html" style="color: #ffffff">Cookies</a>
+</nav>
+</div>
+</div>
 </footer>
-
+</div>
+<script>
+(function(){
+  var reduce=false;try{reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+  // scrolled bar
+  (function(){var r=document.documentElement;function f(){r.classList.toggle('is-scrolled',window.scrollY>60)}f();window.addEventListener('scroll',f,{passive:true})})();
+  // menu
+  document.querySelectorAll('button[aria-controls]').forEach(function(b){
+    var m=document.getElementById(b.getAttribute('aria-controls'));if(!m)return;
+    function set(o){b.setAttribute('aria-expanded',o?'true':'false');m.classList.toggle('is-open',o)}
+    b.addEventListener('click',function(e){e.stopPropagation();set(b.getAttribute('aria-expanded')!=='true')});
+    m.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){set(false)})});
+    document.addEventListener('click',function(e){if(!m.contains(e.target))set(false)});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});
+  });
+  // autoplay loops
+  document.querySelectorAll('video[data-loop]').forEach(function(v){v.muted=true;if(!reduce){var p=v.play();if(p&&p.catch)p.catch(function(){})}});
+  // cursor
+  var cur=document.querySelector('.p9-cur');
+  if(!cur){cur=document.createElement('div');cur.className='p9-cur';cur.setAttribute('aria-hidden','true');document.body.appendChild(cur)}
+  if(cur&&window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    document.documentElement.classList.add('has-cur');
+    document.addEventListener('mousemove',function(e){cur.style.transform='translate('+e.clientX+'px,'+e.clientY+'px)';cur.classList.add('on')});
+    document.documentElement.addEventListener('mouseleave',function(){cur.classList.remove('on')});
+  }
+  if(window.matchMedia('(hover:none)').matches&&'IntersectionObserver' in window&&!reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){var c=e.target,v=c.querySelector('.p9-media video');if(!v)return;if(e.intersectionRatio>=0.6){c.classList.add('is-play');v.muted=true;var p=v.play();if(p&&p.catch)p.catch(function(){})}else{c.classList.remove('is-play');v.pause()}})},{threshold:[0,0.6]});
+    document.querySelectorAll('.p9-cards .p9-card').forEach(function(c){io.observe(c)});
+  }
+  document.querySelectorAll('.p9-card,.v8-tile').forEach(function(c){
+    var v=c.querySelector('.p9-media video');
+    c.addEventListener('mouseenter',function(){if(cur)cur.classList.add('big');if(v&&!reduce){v.muted=true;try{v.currentTime=0}catch(e){}var p=v.play();if(p&&p.catch)p.catch(function(){})}});
+    c.addEventListener('mouseleave',function(){if(cur)cur.classList.remove('big');if(v)v.pause()});
+  });
+  // mailto en pestaña nueva + copiar email
+  document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){a.setAttribute('target','_blank');a.setAttribute('rel','noopener')});
+  document.querySelectorAll('[data-copy]').forEach(function(el){el.addEventListener('click',function(){
+    var t=el.getAttribute('data-copy');
+    function ok(){el.classList.add('is-copied');clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove('is-copied')},1600)}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){fb()})}else{fb()}
+    function fb(){var x=document.createElement('textarea');x.value=t;x.style.position='fixed';x.style.opacity='0';document.body.appendChild(x);x.select();try{document.execCommand('copy');ok()}catch(e){}document.body.removeChild(x)}
+  })});
+  // contact chips
+  function vsMail(t){
+    var M={
+      'Pedir presupuesto':['Pedir presupuesto','Hola, Virgen Santa:\n\nMe gustaría pedir presupuesto para un proyecto.\n\nCuéntanos un poco de qué va el proyecto (qué necesitáis, para cuándo lo necesitáis, qué presupuesto tenéis en mente…):\n\n'],
+      'Crear una marca':['Crear una marca','Hola, Virgen Santa:\n\nEstamos creando una marca desde cero y nos gustaría contar con vosotros.\n\nCuéntanos un poco de qué va el proyecto (qué tipo de negocio es, si ya contáis con nombre o logotipo, qué presupuesto tenéis para abordarlo…):\n\n'],
+      'Reposicionar mi marca':['Reposicionar mi marca','Hola, Virgen Santa:\n\nTenemos una marca que necesita un nuevo enfoque y nos gustaría hablarlo con vosotros.\n\nCuéntanos un poco sobre vuestra marca (a qué os dedicáis, qué sentís que no funciona, qué presupuesto tenéis para abordarlo…):\n\n'],
+      'Contenido y campañas':['Contenido y campañas','Hola, Virgen Santa:\n\nNos gustaría trabajar con vosotros en contenido o en una campaña.\n\nCuéntanos un poco de qué va el proyecto (qué marca sois, qué tenéis en mente, para cuándo, qué presupuesto tenéis…):\n\n'],
+      'Crear una web':['Crear una web','Hola, Virgen Santa:\n\nNecesitamos una web nueva y nos gustaría hacerla con vosotros.\n\nCuéntanos un poco de qué va el proyecto (a qué se dedica vuestra marca, si ya tenéis web o es la primera, qué os gustaría que hiciera, para cuándo la necesitáis, qué presupuesto tenéis…):\n\n'],
+      'Otra cosa':['Hola, Virgen Santa','Hola, Virgen Santa:\n\n']
+    };
+    var m=t&&M[t]?M[t]:['Hola, Virgen Santa','Hola, Virgen Santa:\n\n'];
+    var subj=t&&t!=='Otra cosa'?m[0]+' · desde la web':m[0];
+    return 'mailto:hola@virgensanta.studio?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(m[1]);
+  }
+  var chips=document.querySelectorAll('[data-topic]'),btn=document.querySelector('[data-oremos]');
+  chips.forEach(function(ch){ch.addEventListener('click',function(){
+    var on=ch.getAttribute('aria-pressed')!=='true';
+    chips.forEach(function(o){o.setAttribute('aria-pressed','false');o.style.background='#ffffff';o.style.color='#121212'});
+    if(on){ch.setAttribute('aria-pressed','true');ch.style.background='#121212';ch.style.color='#ffffff'}
+    if(btn)btn.href=vsMail(on?ch.getAttribute('data-topic'):null);
+  })});
+  if(btn)btn.href=vsMail(null);
+  // mailto dentro de un marco (vista previa): abrir fuera para no dejar la página en blanco
+  if(window.top!==window.self){document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="mailto:"]');if(!a)return;e.preventDefault();try{window.open(a.href,'_blank')}catch(x){}},true)}
+  // home video
+  var pv=document.querySelector('[data-play]');
+  if(pv){pv.addEventListener('click',function(){
+    var box=pv.parentNode,v=document.createElement('video');
+    v.src=pv.getAttribute('data-play');v.controls=true;v.autoplay=true;v.playsInline=true;
+    v.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0d0d0d';
+    box.appendChild(v);pv.style.display='none';var p=v.play();if(p&&p.catch)p.catch(function(){});
+  })}
+})();
+</script>
 </body>
 </html>
