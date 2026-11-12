@@ -17,7 +17,8 @@
 <meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 body{margin:0;background:#ffffff}
@@ -164,11 +165,11 @@ button{font-family:inherit}
 <p style="grid-column: 5 / span 7; margin: 0; font-size: 18px; line-height: 1.55">Virgen Santa no se responsabiliza del uso indebido de los contenidos de esta web ni de posibles errores técnicos.</p></div>
 </section>
 <footer style="position: relative; aspect-ratio: 1920 / 800; min-height: 26rem; overflow: hidden; background: #0d0d0d; color: #ffffff">
-<video class="m-foot-video" data-loop autoplay muted src="assets/7e45b878f7.mp4" poster="assets/f35ffb6433.jpg" loop="loop" playsinline="playsinline" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block"></video>
+<video preload="none" class="m-foot-video" data-loop muted data-src="assets/7e45b878f7.mp4" poster="assets/f35ffb6433.jpg" loop="loop" playsinline="playsinline" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block"></video>
 <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(0,0,0,0.28)"></div>
 <div style="position: absolute; inset: 0; box-sizing: border-box; padding: 24px 28px; display: flex; flex-direction: column; justify-content: space-between">
 <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 24px">
-<img class="m-foot-logo" src="assets/837c861818.png" alt="Virgen Santa" style="width: 112px; height: auto; display: block">
+<img loading="lazy" decoding="async" class="m-foot-logo" src="assets/837c861818.png" alt="Virgen Santa" style="width: 112px; height: auto; display: block">
 <nav class="m-foot-nav" aria-label="Contacto y redes" style="display: flex; gap: 28px; font-size: 16px; font-weight: 400">
 <a href="mailto:hola@virgensanta.studio?subject=Hola%2C%20Virgen%20Santa&amp;body=Hola%2C%20Virgen%20Santa%3A%0D%0A%0D%0A" style="color: #ffffff">Contacto<svg aria-hidden="true" width="0.7em" height="0.7em" viewBox="0 0 10 10" style="display:inline-block;vertical-align:0.05em;margin-left:0.25em"><path d="M2 8L8 2M3.5 2H8V6.5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></a>
 <a href="https://www.instagram.com/virgensanta_studio/" target="_blank" rel="noopener" style="color: #ffffff">Instagram<svg aria-hidden="true" width="0.7em" height="0.7em" viewBox="0 0 10 10" style="display:inline-block;vertical-align:0.05em;margin-left:0.25em"><path d="M2 8L8 2M3.5 2H8V6.5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></a>
@@ -201,7 +202,15 @@ button{font-family:inherit}
     document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});
   });
   // autoplay loops
-  document.querySelectorAll('video[data-loop]').forEach(function(v){v.muted=true;if(!reduce){var p=v.play();if(p&&p.catch)p.catch(function(){})}});
+  (function(){
+    var vs=document.querySelectorAll('video[data-loop]');
+    function load(v){if(!v.src&&v.getAttribute('data-src')){v.src=v.getAttribute('data-src');v.load()}}
+    function play(v){if(reduce)return;v.muted=true;var p=v.play();if(p&&p.catch)p.catch(function(){})}
+    if(!('IntersectionObserver' in window)){vs.forEach(function(v){load(v);play(v)});return}
+    var near=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){load(e.target);near.unobserve(e.target)}})},{rootMargin:'1200px 0px'});
+    var vis=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting){load(v);play(v)}else{v.pause()}})},{threshold:0});
+    vs.forEach(function(v){near.observe(v);vis.observe(v)});
+  })();
   // cursor
   var cur=document.querySelector('.p9-cur');
   if(!cur){cur=document.createElement('div');cur.className='p9-cur';cur.setAttribute('aria-hidden','true');document.body.appendChild(cur)}
