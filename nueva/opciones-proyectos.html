@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Opciones · botón Proyectos — Virgen Santa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500..900&amp;family=Libre+Caslon+Text:ital@1&amp;family=Archivo:ital,wdth,wght@0,62..125,200..700;1,62..125,200..700&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:'Archivo','Helvetica Neue',Arial,sans-serif;font-weight:300;color:#121212;background:#f4f4f2}
+a{color:inherit;text-decoration:none}
+.intro{padding:56px clamp(28px,6vw,96px) 24px;max-width:900px}
+.intro h1{margin:0 0 12px;font-weight:400;font-size:clamp(32px,4vw,52px);letter-spacing:-0.04em;line-height:1}
+.intro p{margin:0;font-size:16px;line-height:1.5;color:#5c5c5c}
+.opt{margin:40px clamp(16px,3vw,48px);background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+.label{display:flex;gap:16px;align-items:baseline;padding:18px 28px;border-bottom:1px solid #eee;font-size:14px;color:#5c5c5c}
+.label b{font-weight:600;color:#121212;font-size:15px}
+.stage{position:relative;height:260px;background:#fff}
+.stage.img{background:url(assets/8595112ab9.jpg) center 35%/cover}
+.bar{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:22px 28px}
+.bar img.logo{height:52px;width:auto;display:block}
+.hint{position:absolute;left:28px;bottom:18px;font-size:13px;color:#9a9a9a}
+.stage.img .hint{color:#fff;opacity:.8}
+
+/* A · subrayado */
+.a{margin-top:14px;position:relative;font-size:17px;font-weight:400;letter-spacing:-0.01em;line-height:1;padding-bottom:4px}
+.a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.a:hover::after{transform:scaleX(1);transform-origin:left}
+
+/* B · rodillo tipográfico */
+.b{margin-top:10px;display:block;height:26px;overflow:hidden;font-size:20px;line-height:26px}
+.b span{display:block;transition:transform .55s cubic-bezier(.7,0,.2,1)}
+.b span:first-child{font-weight:400;letter-spacing:-0.02em}
+.b span:last-child{font-family:'Libre Caslon Text',serif;font-style:italic;font-size:21px}
+.b:hover span{transform:translateY(-100%)}
+
+/* C · Big Shoulders + punto granate */
+.c{margin-top:10px;display:inline-flex;align-items:center;gap:10px;font-family:'Big Shoulders Display',sans-serif;font-weight:800;font-size:24px;letter-spacing:.02em;text-transform:uppercase;line-height:1}
+.c i{width:9px;height:9px;border-radius:50%;background:#6E1423;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.c:hover i{transform:scale(2.2)}
+
+/* D · pastilla */
+.d{margin-top:8px;display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:999px;background:#121212;color:#fff;font-size:16px;font-weight:400;line-height:1;transition:background-color .35s ease}
+.d svg{transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.d:hover{background:#6E1423}
+.d:hover svg{transform:rotate(45deg)}
+
+/* E · mezcla serif */
+.e{margin-top:8px;display:inline-flex;align-items:baseline;gap:8px;font-size:18px;font-weight:400;letter-spacing:-0.02em;line-height:1}
+.e em{font-family:'Libre Caslon Text',serif;font-style:italic;font-size:1.05em;transition:color .3s ease}
+.e .ar{display:inline-block;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.e:hover em{color:#6E1423}
+.e:hover .ar{transform:translateX(6px)}
+
+/* F · cruz */
+.f{margin-top:8px;display:inline-flex;align-items:center;gap:12px;font-size:17px;font-weight:400;letter-spacing:-0.01em;line-height:1}
+.f svg{transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.f:hover svg{transform:rotate(180deg)}
+
+/* G · círculo */
+.g{margin-top:0;position:relative;display:flex;align-items:center;justify-content:center;width:96px;height:96px;border-radius:50%;border:1px solid #121212;font-family:'Libre Caslon Text',serif;font-style:italic;font-size:17px;transition:background-color .4s ease,color .4s ease}
+.g:hover{background:#121212;color:#fff}
+</style>
+</head>
+<body>
+<div class="intro">
+<h1>Botón de Proyectos · opciones</h1>
+<p>El logo es siempre el negro, fijo arriba a la izquierda. Pasa el ratón por cada opción para ver la animación. Cada una aparece sobre fondo blanco y sobre imagen, que es como se verá al hacer scroll por un caso.</p>
+</div>
+
+<!-- A -->
+<section class="opt"><div class="label"><b>A</b> Texto con subrayado que se dibuja</div>
+<div class="stage"><div class="bar"><img class="logo" src="assets/804a1ae5dc.png" alt="Virgen Santa"><a class="a" href="#">Proyectos</a></div><span class="hint">Sobre blanco</span></div>
+<div class="stage img"><div class="bar"><img class="logo" src="assets/804a1ae5dc.png" alt="Virgen Santa"><a class="a" href="#">Proyectos</a></div><span class="hint">Sobre imagen</span></div></section>
+
+<!-- B -->
+<section class="opt"><div class="label"><b>B</b> Rodillo: Archivo que rueda a Caslon cursiva</div>
+<div class="stage"><div class="bar"><img class="logo" src="assets/804a1ae5dc.png" alt="Virgen Santa"><a class="b" href="#"><span>Proyectos</span><span>proyectos</span></a></div><span class="hint">Sobre blanco</span></div>
+<div class="stage img"><div class="bar"><img class="logo" src="assets/804a1ae5dc.png" alt="Virgen Santa"><a class="b" href="#"><span>Proyectos</span><span>proyectos</span></a></div><span class="hint">Sobre imagen</span></div></section>
+
+<!-- C -->
+<section class="opt"><div class="label"><b>C</b> Big Shoulders en mayúsculas con el punto granate del cursor</div>
+<div class="stage"><div class="bar"><img class="logo" src="assets/804a1ae5dc.png" alt="Virgen Santa"><a class="c" href="#"><i></i>Proyectos</a></div><span class="hint">Sobre blanco</span></div>
+<div class="stage img"><div class="bar"><img class="logo" src="assets/804a1ae5dc.png" alt="Virgen Santa"><a class="c" href="#"><i></i>Proyectos</a></div><span class="hint">Sobre imagen</span></div></section>
+
+<!-- D -->
+<section class="opt"><div class="label"><b>D</b> Pastilla negra con flecha que gira; al pasar el ratón, granate</div>
+<div class="stage"><div class="bar"><img class="logo" src="assets/804a1ae5dc.png" alt="Virgen Santa"><a class="d" href="#">Proyectos <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" stroke="currentColor" stroke-width="1.4"/></svg></a></div><span class="hint">Sobre blanco</span></div>
+<div class="stage img"><div class="bar"><img class="logo" src="assets/804a1ae5dc.png" alt="Virgen Santa"><a class="d" href="#">Proyectos <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" stroke="currentColor" stroke-width="1.4"/></svg></a></div><span class="hint">Sobre imagen</span></div></section>
+
+<!-- E -->
+<section class="opt"><div class="label"><b>E</b> Mezcla tipográfica, como los statements de la web</div>
+<div class="stage"><div class="bar"><img class="logo" src="assets/804a1ae5dc.png" alt="Virgen Santa"><a class="e" href="#">Ver <em>proyectos</em> <span class="ar">→</span></a></div><span class="hint">Sobre blanco</span></div>
+<div class="stage img"><div class="bar"><img class="logo" src="assets/804a1ae5dc.png" alt="Virgen Santa"><a class="e" href="#">Ver <em>proyectos</em> <span class="ar">→</span></a></div><span class="hint">Sobre imagen</span></div></section>
+
+<!-- F -->
+<section class="opt"><div class="label"><b>F</b> Texto con una cruz que da media vuelta</div>
+<div class="stage"><div class="bar"><img class="logo" src="assets/804a1ae5dc.png" alt="Virgen Santa"><a class="f" href="#"><svg width="14" height="18" viewBox="0 0 14 18" aria-hidden="true"><path d="M5.5 0h3v5h5.5v3H8.5v10h-3V8H0V5h5.5z" fill="currentColor"/></svg>Proyectos</a></div><span class="hint">Sobre blanco</span></div>
+<div class="stage img"><div class="bar"><img class="logo" src="assets/804a1ae5dc.png" alt="Virgen Santa"><a class="f" href="#"><svg width="14" height="18" viewBox="0 0 14 18" aria-hidden="true"><path d="M5.5 0h3v5h5.5v3H8.5v10h-3V8H0V5h5.5z" fill="currentColor"/></svg>Proyectos</a></div><span class="hint">Sobre imagen</span></div></section>
+
+<!-- G -->
+<section class="opt"><div class="label"><b>G</b> Sello circular en Caslon cursiva que se rellena</div>
+<div class="stage"><div class="bar"><img class="logo" src="assets/804a1ae5dc.png" alt="Virgen Santa"><a class="g" href="#">Proyectos</a></div><span class="hint">Sobre blanco</span></div>
+<div class="stage img"><div class="bar"><img class="logo" src="assets/804a1ae5dc.png" alt="Virgen Santa"><a class="g" href="#">Proyectos</a></div><span class="hint">Sobre imagen</span></div></section>
+<div style="height:80px"></div>
+</body>
+</html>
