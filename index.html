@@ -72,6 +72,7 @@ a:hover{opacity:0.7}
 .sr-escribe input{flex:1;min-width:0;border:0;outline:none;font-family:inherit;font-size:13px;font-weight:300;background:transparent;min-height:28px;color:#121212}
 .sr-escribe button{font-family:inherit;font-size:12px;font-weight:500;letter-spacing:.08em;color:#fff;background:#121212;border:0;border-radius:999px;padding:0 12px;min-height:28px;cursor:pointer}
 .sr-pie{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;padding-left:48px;margin-top:10px}
+.sr-ts{display:flex;justify-content:flex-end}.sr-ts iframe{margin:0 0 8px}
 .sr-reset{font-family:inherit;font-size:14px;font-weight:300;background:none;border:0;padding:0;text-decoration:underline;cursor:pointer;color:#121212}
 .sr-cal{display:inline-block;align-self:flex-start;margin-left:48px;font-size:13px;font-weight:500;letter-spacing:.06em;color:#fff!important;background:#121212;border-radius:999px;padding:10px 16px}
 .sr-esc{display:flex;gap:5px;padding:14px 16px;background:#F2F2F0;border-radius:18px 18px 18px 4px}
@@ -275,6 +276,7 @@ button{font-family:inherit}
 </div>
 <div class="sr-der">
 <div class="sr-chat" id="sr-chat" aria-live="polite" aria-label="Conversación con Sor Remedios, la encargada virtual de Virgen Santa"></div>
+<div id="sr-ts" class="sr-ts"></div>
 <form class="sr-escribe" id="sr-form">
 <label for="sr-txt" class="sr-oculto">Escribe a Sor Remedios</label>
 <input id="sr-txt" type="text" autocomplete="off" placeholder="Escríbele a Sor Remedios…" maxlength="1200">
@@ -409,6 +411,17 @@ button{font-family:inherit}
   var chat=document.getElementById('sr-chat'),form=document.getElementById('sr-form'),txt=document.getElementById('sr-txt');
   if(!chat)return;
   var msgs=[],ocupado=false,fin=false,fichaEnviada=false,iniciado=false;
+  var SALUDO='Soy Sor Remedios, la encargada virtual de Virgen Santa. ¿Cómo podemos ayudarte?',
+      OPC=['Crear o renovar una marca','Una web','Redes sociales y contenido','Una campaña o producción audiovisual','Otra cosa'];
+  // Anti-bots (Cloudflare Turnstile): se comprueba al primer mensaje; después vale la sesión que firma el servidor
+  var SK='0x4AAAAAAGFfxJ7jsNFc3w5t',sesion='',tok='',tsId=null,esperando=null;
+  function tsCargar(){if(document.getElementById('sr-ts-js'))return;window.srTs=function(){tsId=turnstile.render('#sr-ts',{sitekey:SK,appearance:'interaction-only',language:'es',
+      callback:function(t){tok=t;if(esperando){var f=esperando;esperando=null;f()}},
+      'expired-callback':function(){tok='';try{turnstile.reset(tsId)}catch(e){}},
+      'error-callback':function(){tok=''}})};
+    var s=document.createElement('script');s.id='sr-ts-js';s.async=true;s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=srTs';document.head.appendChild(s)}
+  function tsReset(){tok='';if(tsId!==null){try{turnstile.reset(tsId)}catch(e){}}}
+  function conToken(f){if(sesion||tok)return f();esperando=f;setTimeout(function(){if(esperando===f){esperando=null;f()}},15000)}
   function scroll(){chat.scrollTop=chat.scrollHeight}
   function bot(t){var d=document.createElement('div');d.className='sr-bot sr-in';var i=document.createElement('img');i.src=AV;i.alt='';d.appendChild(i);var p=document.createElement('p');p.textContent=t;d.appendChild(p);chat.appendChild(d);scroll()}
   function yo(t){var p=document.createElement('p');p.className='sr-yo sr-in';p.textContent=t;chat.appendChild(p);scroll()}
@@ -426,10 +439,13 @@ button{font-family:inherit}
   function esc(on){var e=document.getElementById('sr-esc');if(on&&!e){e=document.createElement('div');e.id='sr-esc';e.className='sr-bot';e.innerHTML='<img src="'+AV+'" alt=""><div class="sr-esc"><b></b><b></b><b></b></div>';chat.appendChild(e);scroll()}if(!on&&e)e.remove()}
   function pedir(){
     ocupado=true;esc(true);
-    fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({messages:msgs,fichaEnviada:fichaEnviada})})
+    conToken(function(){
+    var ts=sesion?'':tok;if(ts)tok='';
+    fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({messages:msgs,fichaEnviada:fichaEnviada,sesion:sesion,ts:ts})})
     .then(function(r){return r.json()}).then(function(d){
       esc(false);
-      if(d.error){bot(d.mensaje||'Se me ha ido el santo al cielo. Prueba otra vez en un momento.');return}
+      if(d.sesion)sesion=d.sesion;
+      if(d.error){if(d.error==='verificacion'){sesion='';tsReset()}if(msgs.length&&msgs[msgs.length-1].role==='user')msgs.pop();bot(d.mensaje||'Se me ha ido el santo al cielo. Prueba otra vez en un momento.');return}
       bot(d.mensaje);
       msgs.push({role:'assistant',content:d.mensaje+(d.opciones&&d.opciones.length?'\n[Opciones: '+d.opciones.join(' | ')+']':'')});
       if(d.fichaEnviada)fichaEnviada=true;
@@ -437,11 +453,13 @@ button{font-family:inherit}
       else opciones(d.opciones,d.multiple);
     }).catch(function(){esc(false);bot('Se me ha ido el santo al cielo. Prueba otra vez en un momento o escríbenos a hola@virgensanta.studio.')})
     .then(function(){ocupado=false});
+    });
   }
   function enviar(t){t=(t||'').trim();if(!t||ocupado||fin)return;quitar();yo(t);msgs.push({role:'user',content:t});txt.value='';pedir()}
   form.addEventListener('submit',function(e){e.preventDefault();enviar(txt.value)});
-  document.getElementById('sr-reset').addEventListener('click',function(){if(ocupado)return;chat.innerHTML='';msgs=[];fin=false;fichaEnviada=false;txt.placeholder='Escríbele a Sor Remedios…';pedir()});
-  function arrancar(){if(iniciado)return;iniciado=true;pedir()}
+  function saludar(){bot(SALUDO);msgs.push({role:'assistant',content:SALUDO+'\n[Opciones: '+OPC.join(' | ')+']'});opciones(OPC,false)}
+  document.getElementById('sr-reset').addEventListener('click',function(){if(ocupado)return;chat.innerHTML='';msgs=[];fin=false;fichaEnviada=false;txt.placeholder='Escríbele a Sor Remedios…';saludar()});
+  function arrancar(){if(iniciado)return;iniciado=true;tsCargar();saludar()}
   if('IntersectionObserver' in window){new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){arrancar();o.disconnect()}})},{rootMargin:'300px 0px'}).observe(chat)}else arrancar();
   // ojos
   var sec=document.getElementById('oremos-v8'),foto=document.getElementById('sr-foto');
