@@ -416,11 +416,12 @@ button{font-family:inherit}
   // Anti-bots (Cloudflare Turnstile): se comprueba al primer mensaje; después vale la sesión que firma el servidor
   var SK='0x4AAAAAAGFfxJ7jsNFc3w5t',sesion='',tok='',tsId=null,esperando=null;
   function tsCargar(){if(document.getElementById('sr-ts-js'))return;window.srTs=function(){tsId=turnstile.render('#sr-ts',{sitekey:SK,appearance:'interaction-only',language:'es',
-      callback:function(t){tok=t;if(esperando){var f=esperando;esperando=null;f()}},
-      'expired-callback':function(){tok='';try{turnstile.reset(tsId)}catch(e){}},
+      callback:function(t){tok=t;tsVer(false);if(esperando){var f=esperando;esperando=null;f()}},
+      'expired-callback':function(){tok='';if(!sesion){tsVer(true);try{turnstile.reset(tsId)}catch(e){}}},
       'error-callback':function(){tok=''}})};
     var s=document.createElement('script');s.id='sr-ts-js';s.async=true;s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=srTs';document.head.appendChild(s)}
-  function tsReset(){tok='';if(tsId!==null){try{turnstile.reset(tsId)}catch(e){}}}
+  function tsVer(on){var e=document.getElementById('sr-ts');if(e)e.style.display=on?'':'none'}
+  function tsReset(){tok='';tsVer(true);if(tsId!==null){try{turnstile.reset(tsId)}catch(e){}}}
   function conToken(f){if(sesion||tok)return f();esperando=f;setTimeout(function(){if(esperando===f){esperando=null;f()}},15000)}
   function scroll(){chat.scrollTop=chat.scrollHeight}
   function bot(t){var d=document.createElement('div');d.className='sr-bot sr-in';var i=document.createElement('img');i.src=AV;i.alt='';d.appendChild(i);var p=document.createElement('p');p.textContent=t;d.appendChild(p);chat.appendChild(d);scroll()}
